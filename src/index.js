@@ -1,11 +1,7 @@
-import _ from "lodash";
+import { animate } from "./scene";
 
-function component() {
-  const element = document.createElement("div");
-
-  element.innerHTML = _.join(["Hello", "webpack"], " ");
-
-  return element;
-}
-
-document.body.appendChild(component());
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("webpack is running...");
+  console.log("DOM fully loaded and parsed");
+  animate();
+});

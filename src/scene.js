@@ -1,8 +1,13 @@
-import * as THREE from "./three";
-import { bubble } from "./bubble";
+import { THREE } from "./utils/globals";
+// import { bubble } from "./bubble";
 
-function animate() {
-  draw();
+export function animate() {
+  requestAnimationFrame(animate);
+
+  shape.rotation.x += 0.01;
+  shape.rotation.y += 0.01;
+
+  renderer.render(scene, camera);
 }
 
 // set the scene size to be the 1/2 entire page (increases performance)
@@ -23,27 +28,46 @@ let camera = new THREE.PerspectiveCamera(
   NEAR,
   FAR
 );
-let renderer = new THREE.WebGLRenderer();
-let canvas = document.getElementById("gameCanvas");
-
-// give the camera a start position
-camera.position.z = 5;
-
 // start the renderer
+let renderer = new THREE.WebGLRenderer();
 renderer.setSize(WIDTH, HEIGHT);
 
 // attach the renderer to the app canvas
+let canvas = document.getElementById("gameCanvas");
 canvas.appendChild(renderer.domElement);
 
-// add objects to the scene
-scene.add(bubble);
+// create the shape
+// lower 'segment' and 'ring' values will increase performance
+let radius = 5,
+  segments = 100,
+  rings = 6;
 
-function draw() {
-  // loop the draw() function
-  requestAnimationFrame(draw);
-  // draw THREE.JS scene
-  renderer.render(scene, camera);
-  // process game logic
-}
+// create the shape's material
+let shapeMaterial = new THREE.MeshLambertMaterial({
+  color: 0xd43001
+});
 
-animate();
+// create the shape's geometry
+let shapeGeometry = new THREE.SphereGeometry(radius, segments, rings);
+
+// Create a shape with shape geometry
+let shape = new THREE.Mesh(shapeGeometry, shapeMaterial);
+
+// add the shape to the scene
+scene.add(shape);
+
+// // create a point light
+let pointLight = new THREE.PointLight(0xf8d898);
+
+// set its position
+pointLight.position.x = -1000;
+pointLight.position.y = 0;
+pointLight.position.z = 1000;
+pointLight.intensity = 2.9;
+pointLight.distance = 10000;
+
+// add to the scene
+scene.add(pointLight);
+
+// give the camera a start position
+camera.position.z = 20;

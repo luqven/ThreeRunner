@@ -5,5 +5,18 @@ module.exports = {
   output: {
     filename: "main.js",
     path: path.resolve(__dirname, "dist")
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(png|jpe?g|gif)$/,
+        use: [
+          {
+            loader: "file-loader",
+            options: {}
+          }
+        ]
+      }
+    ]
   }
 };
