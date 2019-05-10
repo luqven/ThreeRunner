@@ -1,5 +1,5 @@
 import { THREE } from "./utils/globals";
-// import { bubble } from "./bubble";
+import bubble from "./bubble";
 
 export function animate() {
   requestAnimationFrame(animate);
@@ -36,24 +36,8 @@ renderer.setSize(WIDTH, HEIGHT);
 let canvas = document.getElementById("gameCanvas");
 canvas.appendChild(renderer.domElement);
 
-// create the shape
-// lower 'segment' and 'ring' values will increase performance
-let radius = 5,
-  segments = 100,
-  rings = 6;
-
-// create the shape's material
-let shapeMaterial = new THREE.MeshLambertMaterial({
-  color: 0xd43001
-});
-
-// create the shape's geometry
-let shapeGeometry = new THREE.SphereGeometry(radius, segments, rings);
-
-// Create a shape with shape geometry
-let shape = new THREE.Mesh(shapeGeometry, shapeMaterial);
-
 // add the shape to the scene
+let shape = bubble;
 scene.add(shape);
 
 // // create a point light

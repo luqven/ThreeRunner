@@ -1,20 +1,19 @@
 import { THREE } from "./utils/globals";
 
-// // setup the bubble attributes
-// const RADIUS = 5,
-//   SEGMENTS = 32,
-//   RINGS = 32;
+// lower 'segment' and 'ring' values will increase performance
+let radius = 5,
+  segments = 100,
+  rings = 6;
 
-// // create the bubble's materials
-// let bubbleMaterial = new THREE.MeshBasicMaterial({
-//   color: 0xffff00
-// });
-// // create the bubbles geometry
-// let bubbleGeometry = new THREE.SphereGeometry(RADIUS, SEGMENTS, RINGS);
+// create the shape's material
+let shapeMaterial = new THREE.MeshLambertMaterial({
+  color: 0xd43001
+});
 
-// // create a bubble with sphere geometry
-// export const bubble = new THREE.Mesh(bubbleGeometry, bubbleMaterial);
+// create the shape's geometry
+let shapeGeometry = new THREE.SphereGeometry(radius, segments, rings);
 
-var geometry = new THREE.SphereGeometry(5, 32, 32);
-var material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-export var bubble = new THREE.Mesh(geometry, material);
+// Create a shape with shape geometry
+const bubble = new THREE.Mesh(shapeGeometry, shapeMaterial);
+
+export default bubble;
