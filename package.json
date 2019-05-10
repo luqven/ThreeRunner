@@ -13,7 +13,7 @@
   "devDependencies": {},
   "scripts": {
     "test": "test",
-    "build": "webpack"
+    "build": "webpack --watch --mode=development"
   },
   "author": "Luis Ball",
   "license": "ISC"
