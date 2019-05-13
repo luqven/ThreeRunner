@@ -1,11 +1,12 @@
 import THREE from "./utils/globals";
 import handleResize from "./utils/handleResize";
 import setCameraControl from "./utils/cameraControl";
+import hemisphereLight from "./utils/hemisphereLight";
+import fog from "./fog";
 import sun from "./sun";
 import ground from "./ground";
 import player from "./player";
-import bubble from "./bubble";
-// import COLORS from "./utils/colors";
+import COLORS from "./utils/colors";
 
 //////////////////////////////////////////
 // Rendering functions
@@ -50,6 +51,8 @@ let camera = new THREE.PerspectiveCamera(
 let renderer = new THREE.WebGLRenderer({ alpha: true });
 renderer.shadowMap.enabled = true; //enable shadow
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+// set the renderers clear color to be the same as the fog color;
+renderer.clearColor(COLORS.fogColor, 1);
 renderer.setSize(SCENE_WIDTH, SCENE_HEIGHT);
 
 // attach the renderer to the app canvas
@@ -57,13 +60,16 @@ let canvas = document.getElementById("gameCanvas");
 canvas.appendChild(renderer.domElement);
 
 // add the shape to the scene
-let shape = bubble;
 // scene.add(shape);
 scene.add(player);
 scene.add(ground);
 
 // add lighting to the scene
 scene.add(sun);
+scene.add(hemisphereLight);
+
+// add fog to the scene
+scene.fog = fog;
 
 // give the camera a start position
 camera.position.z = 50;
