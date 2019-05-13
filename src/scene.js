@@ -1,12 +1,13 @@
 import THREE from "./utils/globals";
-import handleResize from "./utils/handleResize";
+
+import COLORS from "./utils/colors";
 import setCameraControl from "./utils/cameraControl";
 import hemisphereLight from "./utils/hemisphereLight";
+
 import fog from "./fog";
 import sun from "./sun";
 import ground from "./ground";
 import player from "./player";
-import COLORS from "./utils/colors";
 
 //////////////////////////////////////////
 // Rendering functions
@@ -25,13 +26,22 @@ function render() {
   renderer.render(scene, camera);
 }
 
+// resize helper
+let handleResize = () => {
+  let sceneHeight = window.innerHeight;
+  let sceneWidth = window.innerWidth;
+  renderer.setSize(sceneWidth, sceneHeight);
+  camera.aspect = sceneWidth / sceneHeight;
+  camera.updateProjectionMatrix();
+};
+
 //////////////////////////////////////////
 // Rendering setup
 //////////////////////////////////////////
 
 // set the scene size to be the 1/2 entire page (increases performance)
-const SCENE_WIDTH = window.innerWidth / 2,
-  SCENE_HEIGHT = window.innerHeight / 2;
+const SCENE_WIDTH = window.innerWidth,
+  SCENE_HEIGHT = window.innerHeight;
 
 // set the camera attributes
 const FIELD_OF_VIEW = 60,
@@ -79,9 +89,4 @@ camera.position.y = 10;
 setCameraControl(camera, renderer, render);
 
 // when window is resized, re-render
-window.addEventListener(
-  "resize",
-  (SCENE_HEIGHT, SCENE_WIDTH, renderer, camera) =>
-    handleResize(SCENE_HEIGHT, SCENE_WIDTH, renderer, camera),
-  false
-);
+window.addEventListener("resize", handleResize, false);

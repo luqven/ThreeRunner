@@ -1,5 +1,4 @@
 let handleResize = (sceneHeight, sceneWidth, renderer, camera) => {
-  //resize & align
   sceneHeight = window.innerHeight;
   sceneWidth = window.innerWidth;
   renderer.setSize(sceneWidth, sceneHeight);
