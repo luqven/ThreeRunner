@@ -1,6 +1,7 @@
 import THREE from "./utils/globals";
 import COLORS from "./utils/colors";
 import * as MTLLoader from "./utils/mtlLoader";
+import * as OBJLoader from "./utils/objLoader";
 
 let width = 10,
   height = 10,
