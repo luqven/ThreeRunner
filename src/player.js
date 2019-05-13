@@ -12,6 +12,6 @@ let player = new THREE.Mesh(playerGeometry, playerMaterial);
 
 player.castShadow = true;
 player.receiveShadow = false;
-player.position.y = 20;
+player.position.y = 10;
 
 export default player;

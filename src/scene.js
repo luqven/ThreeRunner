@@ -58,18 +58,12 @@ canvas.appendChild(renderer.domElement);
 
 // add the shape to the scene
 let shape = bubble;
-scene.add(shape);
+// scene.add(shape);
 scene.add(player);
 scene.add(ground);
 
 // add lighting to the scene
 scene.add(sun);
-
-//Set up shadow properties for the sun light
-sun.shadow.mapSize.width = 256;
-sun.shadow.mapSize.height = 256;
-sun.shadow.camera.near = 0.5;
-sun.shadow.camera.far = 50;
 
 // give the camera a start position
 camera.position.z = 50;
