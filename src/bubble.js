@@ -1,4 +1,5 @@
 import THREE from "./utils/globals";
+import COLORS from "./utils/colors";
 
 // lower 'segment' and 'ring' values will increase performance
 let radius = 5,
@@ -7,7 +8,7 @@ let radius = 5,
 
 // create the shape's material
 let shapeMaterial = new THREE.MeshLambertMaterial({
-  color: 0xd43001
+  color: COLORS.red
 });
 
 // create the shape's geometry

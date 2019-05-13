@@ -1,10 +1,17 @@
 import THREE from "./utils/globals";
+import COLORS from "./utils/colors";
 
-let heroGeometry = new THREE.BoxGeometry(1, 1, 1); //cube
-let heroMaterial = new THREE.MeshStandardMaterial({ color: 0x883333 });
-hero = new THREE.Mesh(heroGeometry, heroMaterial);
-hero.castShadow = true;
-hero.receiveShadow = false;
-hero.position.y = 2;
+let width = 10,
+  height = 10,
+  depth = 10;
 
-export default hero;
+let playerGeometry = new THREE.BoxGeometry(width, height, depth); //cube
+let playerMaterial = new THREE.MeshStandardMaterial({ color: COLORS.magenta });
+
+let player = new THREE.Mesh(playerGeometry, playerMaterial);
+
+player.castShadow = true;
+player.receiveShadow = false;
+player.position.y = 20;
+
+export default player;

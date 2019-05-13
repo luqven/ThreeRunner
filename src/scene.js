@@ -1,7 +1,11 @@
 import THREE from "./utils/globals";
 import handleResize from "./utils/handleResize";
 import setCameraControl from "./utils/cameraControl";
+import sun from "./sun";
+import ground from "./ground";
+import player from "./player";
 import bubble from "./bubble";
+// import COLORS from "./utils/colors";
 
 //////////////////////////////////////////
 // Rendering functions
@@ -10,8 +14,8 @@ import bubble from "./bubble";
 export function animate() {
   requestAnimationFrame(animate);
 
-  shape.rotation.x += 0.01;
-  shape.rotation.y += 0.01;
+  player.rotation.x += 0.01;
+  player.rotation.y += 0.01;
 
   render(); // this draws an updated shape
 }
@@ -29,7 +33,7 @@ const SCENE_WIDTH = window.innerWidth / 2,
   SCENE_HEIGHT = window.innerHeight / 2;
 
 // set the camera attributes
-const FIELD_OF_VIEW = 75,
+const FIELD_OF_VIEW = 60,
   ASPECT_RATIO = SCENE_WIDTH / SCENE_HEIGHT,
   NEAR = 0.1,
   FAR = 1000;
@@ -43,7 +47,9 @@ let camera = new THREE.PerspectiveCamera(
   FAR
 );
 // start the renderer
-let renderer = new THREE.WebGLRenderer();
+let renderer = new THREE.WebGLRenderer({ alpha: true });
+renderer.shadowMap.enabled = true; //enable shadow
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setSize(SCENE_WIDTH, SCENE_HEIGHT);
 
 // attach the renderer to the app canvas
@@ -53,22 +59,21 @@ canvas.appendChild(renderer.domElement);
 // add the shape to the scene
 let shape = bubble;
 scene.add(shape);
+scene.add(player);
+scene.add(ground);
 
-// // create a point light
-let pointLight = new THREE.PointLight(0xf8d898);
+// add lighting to the scene
+scene.add(sun);
 
-// set its position
-pointLight.position.x = -1000;
-pointLight.position.y = 0;
-pointLight.position.z = 1000;
-pointLight.intensity = 2.9;
-pointLight.distance = 10000;
-
-// add to the scene
-scene.add(pointLight);
+//Set up shadow properties for the sun light
+sun.shadow.mapSize.width = 256;
+sun.shadow.mapSize.height = 256;
+sun.shadow.camera.near = 0.5;
+sun.shadow.camera.far = 50;
 
 // give the camera a start position
-camera.position.z = 20;
+camera.position.z = 50;
+camera.position.y = 10;
 
 // add camera controls
 setCameraControl(camera, renderer, render);

@@ -1,11 +1,13 @@
 body {
+  align-content: center;
   /* background-color: black; */
 }
 
 #gameCanvas {
-  background-color: black;
+  background-color: white;
   width: 640px;
   height: 360px;
   margin: auto;
   align-content: center;
+  margin-top: 25vh;
 }

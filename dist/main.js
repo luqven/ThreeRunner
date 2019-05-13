@@ -106,7 +106,19 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n\n\n// lower 'segment' and 'ring' values will increase performance\nlet radius = 5,\n  segments = 100,\n  rings = 6;\n\n// create the shape's material\nlet shapeMaterial = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].MeshLambertMaterial({\n  color: 0xd43001\n});\n\n// create the shape's geometry\nlet shapeGeometry = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].SphereGeometry(radius, segments, rings);\n\n// Create a shape with shape geometry\nconst bubble = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].Mesh(shapeGeometry, shapeMaterial);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (bubble);\n\n\n//# sourceURL=webpack:///./src/bubble.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n/* harmony import */ var _utils_colors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/colors */ \"./src/utils/colors.js\");\n\n\n\n// lower 'segment' and 'ring' values will increase performance\nlet radius = 5,\n  segments = 100,\n  rings = 6;\n\n// create the shape's material\nlet shapeMaterial = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].MeshLambertMaterial({\n  color: _utils_colors__WEBPACK_IMPORTED_MODULE_1__[\"default\"].red\n});\n\n// create the shape's geometry\nlet shapeGeometry = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].SphereGeometry(radius, segments, rings);\n\n// Create a shape with shape geometry\nconst bubble = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].Mesh(shapeGeometry, shapeMaterial);\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (bubble);\n\n\n//# sourceURL=webpack:///./src/bubble.js?");
+
+/***/ }),
+
+/***/ "./src/ground.js":
+/*!***********************!*\
+  !*** ./src/ground.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n/* harmony import */ var _utils_colors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/colors */ \"./src/utils/colors.js\");\n\n\n\nlet width = 50,\n  height = 50,\n  widthSegments = 4,\n  heightSegments = 4;\n\nlet planeGeometry = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].PlaneGeometry(\n  width,\n  height,\n  widthSegments,\n  heightSegments\n);\nlet planeMaterial = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].MeshStandardMaterial({ color: _utils_colors__WEBPACK_IMPORTED_MODULE_1__[\"default\"].green });\n\nlet ground = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].Mesh(planeGeometry, planeMaterial);\n\nground.receiveShadow = true;\nground.castShadow = false;\nground.rotation.x = -Math.PI / 2;\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (ground);\n\n\n//# sourceURL=webpack:///./src/ground.js?");
 
 /***/ }),
 
@@ -122,6 +134,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sce
 
 /***/ }),
 
+/***/ "./src/player.js":
+/*!***********************!*\
+  !*** ./src/player.js ***!
+  \***********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n/* harmony import */ var _utils_colors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/colors */ \"./src/utils/colors.js\");\n\n\n\nlet width = 10,\n  height = 10,\n  depth = 10;\n\nlet playerGeometry = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].BoxGeometry(width, height, depth); //cube\nlet playerMaterial = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].MeshStandardMaterial({ color: _utils_colors__WEBPACK_IMPORTED_MODULE_1__[\"default\"].magenta });\n\nlet player = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].Mesh(playerGeometry, playerMaterial);\n\nplayer.castShadow = true;\nplayer.receiveShadow = false;\nplayer.position.y = 20;\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (player);\n\n\n//# sourceURL=webpack:///./src/player.js?");
+
+/***/ }),
+
 /***/ "./src/scene.js":
 /*!**********************!*\
   !*** ./src/scene.js ***!
@@ -130,7 +154,19 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _sce
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"animate\", function() { return animate; });\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n/* harmony import */ var _utils_handleResize__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/handleResize */ \"./src/utils/handleResize.js\");\n/* harmony import */ var _utils_cameraControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/cameraControl */ \"./src/utils/cameraControl.js\");\n/* harmony import */ var _bubble__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bubble */ \"./src/bubble.js\");\n\n\n\n\n\n//////////////////////////////////////////\n// Rendering functions\n//////////////////////////////////////////\n\nfunction animate() {\n  requestAnimationFrame(animate);\n\n  shape.rotation.x += 0.01;\n  shape.rotation.y += 0.01;\n\n  render(); // this draws an updated shape\n}\n\nfunction render() {\n  renderer.render(scene, camera);\n}\n\n//////////////////////////////////////////\n// Rendering setup\n//////////////////////////////////////////\n\n// set the scene size to be the 1/2 entire page (increases performance)\nconst SCENE_WIDTH = window.innerWidth / 2,\n  SCENE_HEIGHT = window.innerHeight / 2;\n\n// set the camera attributes\nconst FIELD_OF_VIEW = 75,\n  ASPECT_RATIO = SCENE_WIDTH / SCENE_HEIGHT,\n  NEAR = 0.1,\n  FAR = 1000;\n\n// create a renderer, camera, and scene\nlet scene = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].Scene();\nlet camera = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].PerspectiveCamera(\n  FIELD_OF_VIEW,\n  ASPECT_RATIO,\n  NEAR,\n  FAR\n);\n// start the renderer\nlet renderer = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].WebGLRenderer();\nrenderer.setSize(SCENE_WIDTH, SCENE_HEIGHT);\n\n// attach the renderer to the app canvas\nlet canvas = document.getElementById(\"gameCanvas\");\ncanvas.appendChild(renderer.domElement);\n\n// add the shape to the scene\nlet shape = _bubble__WEBPACK_IMPORTED_MODULE_3__[\"default\"];\nscene.add(shape);\n\n// // create a point light\nlet pointLight = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].PointLight(0xf8d898);\n\n// set its position\npointLight.position.x = -1000;\npointLight.position.y = 0;\npointLight.position.z = 1000;\npointLight.intensity = 2.9;\npointLight.distance = 10000;\n\n// add to the scene\nscene.add(pointLight);\n\n// give the camera a start position\ncamera.position.z = 20;\n\n// add camera controls\nObject(_utils_cameraControl__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(camera, renderer, render);\n\n// when window is resized, re-render\nwindow.addEventListener(\n  \"resize\",\n  (SCENE_HEIGHT, SCENE_WIDTH, renderer, camera) =>\n    Object(_utils_handleResize__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(SCENE_HEIGHT, SCENE_WIDTH, renderer, camera),\n  false\n);\n\n\n//# sourceURL=webpack:///./src/scene.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"animate\", function() { return animate; });\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n/* harmony import */ var _utils_handleResize__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/handleResize */ \"./src/utils/handleResize.js\");\n/* harmony import */ var _utils_cameraControl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/cameraControl */ \"./src/utils/cameraControl.js\");\n/* harmony import */ var _sun__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./sun */ \"./src/sun.js\");\n/* harmony import */ var _ground__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./ground */ \"./src/ground.js\");\n/* harmony import */ var _player__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./player */ \"./src/player.js\");\n/* harmony import */ var _bubble__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./bubble */ \"./src/bubble.js\");\n\n\n\n\n\n\n\n// import COLORS from \"./utils/colors\";\n\n//////////////////////////////////////////\n// Rendering functions\n//////////////////////////////////////////\n\nfunction animate() {\n  requestAnimationFrame(animate);\n\n  _player__WEBPACK_IMPORTED_MODULE_5__[\"default\"].rotation.x += 0.01;\n  _player__WEBPACK_IMPORTED_MODULE_5__[\"default\"].rotation.y += 0.01;\n\n  render(); // this draws an updated shape\n}\n\nfunction render() {\n  renderer.render(scene, camera);\n}\n\n//////////////////////////////////////////\n// Rendering setup\n//////////////////////////////////////////\n\n// set the scene size to be the 1/2 entire page (increases performance)\nconst SCENE_WIDTH = window.innerWidth / 2,\n  SCENE_HEIGHT = window.innerHeight / 2;\n\n// set the camera attributes\nconst FIELD_OF_VIEW = 60,\n  ASPECT_RATIO = SCENE_WIDTH / SCENE_HEIGHT,\n  NEAR = 0.1,\n  FAR = 1000;\n\n// create a renderer, camera, and scene\nlet scene = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].Scene();\nlet camera = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].PerspectiveCamera(\n  FIELD_OF_VIEW,\n  ASPECT_RATIO,\n  NEAR,\n  FAR\n);\n// start the renderer\nlet renderer = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].WebGLRenderer({ alpha: true });\nrenderer.shadowMap.enabled = true; //enable shadow\nrenderer.shadowMap.type = _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].PCFSoftShadowMap;\nrenderer.setSize(SCENE_WIDTH, SCENE_HEIGHT);\n\n// attach the renderer to the app canvas\nlet canvas = document.getElementById(\"gameCanvas\");\ncanvas.appendChild(renderer.domElement);\n\n// add the shape to the scene\nlet shape = _bubble__WEBPACK_IMPORTED_MODULE_6__[\"default\"];\nscene.add(shape);\nscene.add(_player__WEBPACK_IMPORTED_MODULE_5__[\"default\"]);\nscene.add(_ground__WEBPACK_IMPORTED_MODULE_4__[\"default\"]);\n\n// add lighting to the scene\nscene.add(_sun__WEBPACK_IMPORTED_MODULE_3__[\"default\"]);\n\n//Set up shadow properties for the sun light\n_sun__WEBPACK_IMPORTED_MODULE_3__[\"default\"].shadow.mapSize.width = 256;\n_sun__WEBPACK_IMPORTED_MODULE_3__[\"default\"].shadow.mapSize.height = 256;\n_sun__WEBPACK_IMPORTED_MODULE_3__[\"default\"].shadow.camera.near = 0.5;\n_sun__WEBPACK_IMPORTED_MODULE_3__[\"default\"].shadow.camera.far = 50;\n\n// give the camera a start position\ncamera.position.z = 50;\ncamera.position.y = 10;\n\n// add camera controls\nObject(_utils_cameraControl__WEBPACK_IMPORTED_MODULE_2__[\"default\"])(camera, renderer, render);\n\n// when window is resized, re-render\nwindow.addEventListener(\n  \"resize\",\n  (SCENE_HEIGHT, SCENE_WIDTH, renderer, camera) =>\n    Object(_utils_handleResize__WEBPACK_IMPORTED_MODULE_1__[\"default\"])(SCENE_HEIGHT, SCENE_WIDTH, renderer, camera),\n  false\n);\n\n\n//# sourceURL=webpack:///./src/scene.js?");
+
+/***/ }),
+
+/***/ "./src/sun.js":
+/*!********************!*\
+  !*** ./src/sun.js ***!
+  \********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n/* harmony import */ var _utils_colors__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/colors */ \"./src/utils/colors.js\");\n\n\n\nlet sun = new _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].DirectionalLight(_utils_colors__WEBPACK_IMPORTED_MODULE_1__[\"default\"].white, 0.8);\nsun.position.set(0, 4, 1);\nsun.castShadow = true;\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (sun);\n\n\n//# sourceURL=webpack:///./src/sun.js?");
 
 /***/ }),
 
@@ -143,6 +179,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./globals */ \"./src/utils/globals.js\");\n\n//helper to rotate around in scene\nlet setCameraControl = (camera, renderer, render) => {\n  let cameraControl = new _globals__WEBPACK_IMPORTED_MODULE_0__[\"default\"].OrbitControls(camera, renderer.domElement);\n  cameraControl.addEventListener(\"change\", render);\n  cameraControl.enableZoom = false;\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (setCameraControl);\n\n\n//# sourceURL=webpack:///./src/utils/cameraControl.js?");
+
+/***/ }),
+
+/***/ "./src/utils/colors.js":
+/*!*****************************!*\
+  !*** ./src/utils/colors.js ***!
+  \*****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\nconst COLORS = {\n  green: 0x00ff00,\n  white: 0xffffff,\n  magenta: 0x883333,\n  red: 0xd43001,\n  lightOrange: 0xf8d898\n};\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (COLORS);\n\n\n//# sourceURL=webpack:///./src/utils/colors.js?");
 
 /***/ }),
 
