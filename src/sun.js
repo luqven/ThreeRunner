@@ -22,6 +22,6 @@ sun.shadow.mapSize.height = 256;
 sun.position.set(12, 6, -7);
 sun.castShadow = true;
 sun.shadow.camera.near = 0.5;
-sun.shadow.camera.far = 50;
+sun.shadow.camera.far = 10;
 
 export default sun;

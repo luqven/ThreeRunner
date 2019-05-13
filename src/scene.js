@@ -7,7 +7,8 @@ import hemisphereLight from "./utils/hemisphereLight";
 import fog from "./fog";
 import sun from "./sun";
 import ground from "./ground";
-import player from "./player";
+// import player from "./player";
+import bubble from "./bubble";
 
 //////////////////////////////////////////
 // Rendering functions
@@ -16,8 +17,8 @@ import player from "./player";
 export function animate() {
   requestAnimationFrame(animate);
 
-  player.rotation.x += 0.01;
-  player.rotation.y += 0.01;
+  player.rotation.x += -0.01;
+  // player.rotation.y += -0.01;
 
   render(); // this draws an updated shape
 }
@@ -70,7 +71,7 @@ let canvas = document.getElementById("gameCanvas");
 canvas.appendChild(renderer.domElement);
 
 // add the shape to the scene
-// scene.add(shape);
+let player = bubble;
 scene.add(player);
 scene.add(ground);
 
