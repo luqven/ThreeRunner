@@ -1,5 +1,11 @@
-import { THREE } from "./utils/globals";
+import THREE from "./utils/globals";
+import handleResize from "./utils/handleResize";
+import setCameraControl from "./utils/cameraControl";
 import bubble from "./bubble";
+
+//////////////////////////////////////////
+// Rendering functions
+//////////////////////////////////////////
 
 export function animate() {
   requestAnimationFrame(animate);
@@ -7,16 +13,24 @@ export function animate() {
   shape.rotation.x += 0.01;
   shape.rotation.y += 0.01;
 
+  render(); // this draws an updated shape
+}
+
+function render() {
   renderer.render(scene, camera);
 }
 
+//////////////////////////////////////////
+// Rendering setup
+//////////////////////////////////////////
+
 // set the scene size to be the 1/2 entire page (increases performance)
-const WIDTH = window.innerWidth / 2,
-  HEIGHT = window.innerHeight / 2;
+const SCENE_WIDTH = window.innerWidth / 2,
+  SCENE_HEIGHT = window.innerHeight / 2;
 
 // set the camera attributes
 const FIELD_OF_VIEW = 75,
-  ASPECT_RATIO = WIDTH / HEIGHT,
+  ASPECT_RATIO = SCENE_WIDTH / SCENE_HEIGHT,
   NEAR = 0.1,
   FAR = 1000;
 
@@ -30,7 +44,7 @@ let camera = new THREE.PerspectiveCamera(
 );
 // start the renderer
 let renderer = new THREE.WebGLRenderer();
-renderer.setSize(WIDTH, HEIGHT);
+renderer.setSize(SCENE_WIDTH, SCENE_HEIGHT);
 
 // attach the renderer to the app canvas
 let canvas = document.getElementById("gameCanvas");
@@ -55,3 +69,14 @@ scene.add(pointLight);
 
 // give the camera a start position
 camera.position.z = 20;
+
+// add camera controls
+setCameraControl(camera, renderer, render);
+
+// when window is resized, re-render
+window.addEventListener(
+  "resize",
+  (SCENE_HEIGHT, SCENE_WIDTH, renderer, camera) =>
+    handleResize(SCENE_HEIGHT, SCENE_WIDTH, renderer, camera),
+  false
+);

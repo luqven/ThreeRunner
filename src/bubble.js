@@ -1,4 +1,4 @@
-import { THREE } from "./utils/globals";
+import THREE from "./utils/globals";
 
 // lower 'segment' and 'ring' values will increase performance
 let radius = 5,
