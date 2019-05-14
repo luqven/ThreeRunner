@@ -20,5 +20,11 @@ export const Util = {
         window.setTimeout(callback, 1000 / 60);
       }
     );
-  })()
+  })(),
+  colors: {
+    red: "rgba(255, 0, 0)",
+    blue: "blue",
+    green: "green",
+    yellow: "yellow"
+  }
 };

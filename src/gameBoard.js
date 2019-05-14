@@ -1,5 +1,7 @@
 // gameBoard.js
 // exports Board class
+import { Util } from "./utils/globals";
+import { Bubble } from "./bubble";
 
 export class Board {
   constructor(props) {
@@ -7,22 +9,50 @@ export class Board {
     this.cols = 5;
     this.board = [];
     this.pieces = null;
+    this.canvas = props.canvas;
   }
 
   init() {
     this.populateBoard();
+    this.render();
   }
   // make 2d array of row / cols
   populateBoard() {
-    for (let i = 0; i < this.rows; i++) {
+    let startX = this.canvas.width / 4;
+    let startY = -40;
+    let gap = 80;
+    let currentX = startX;
+    let currentY = startY;
+    for (let i = 1; i < this.rows + 1; i++) {
       let row = [];
-      for (let j = 0; j < this.cols; j++) {
-        row.push("bubble");
+      currentY += gap;
+      for (let j = 1; j < this.cols + 1; j++) {
+        let bubbleX = currentX + j * gap;
+        let bubbleY = currentY;
+        let newBubble = new Bubble({
+          color: Object.values(Util.colors)[
+            Util.getRandom(0, Object.values(Util.colors).length)
+          ],
+          x: bubbleX,
+          y: bubbleY,
+          canvas: this.canvas
+        });
+        newBubble.setCoordinates(bubbleX, bubbleY);
+        row.push(newBubble);
+        console.log(newBubble.getCoordinates());
       }
       this.board.push(row);
     }
-    console.log(this.board);
   }
 
-  update() {}
+  // update() {}
+  render() {
+    for (let i = 0; i < this.rows; i++) {
+      let row = this.board[i];
+      for (let j = 0; j < this.cols; j++) {
+        let bubble = row[j];
+        bubble.render();
+      }
+    }
+  }
 }

@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     objects: []
   });
   // create the game board
-  const board = new Board();
+  const board = new Board({ canvas: canvas });
   board.init();
   // create the player
 
