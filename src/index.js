@@ -1,5 +1,6 @@
 // index js file
-import { Canvas, Util } from "./utils/globals";
+import { Util } from "./utils/globals";
+import { Canvas } from "./utils/canvas";
 
 document.addEventListener("DOMContentLoaded", () => {
   console.log("webpack is running...");
