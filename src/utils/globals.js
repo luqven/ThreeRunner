@@ -1,4 +1,4 @@
-export default class Canvas {
+export class Canvas {
   constructor(props) {
     this.x = 0;
     this.y = 0;
@@ -63,3 +63,28 @@ export default class Canvas {
     this.ctx.clearRect(0, 0, this.width, this.height);
   }
 }
+
+export const Util = {
+  inherits: function inherits(childClass, parentClass) {
+    // TODO: allow classes to inherit
+  },
+  getRandom: function(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  },
+  getRandomFraction: function(min, max) {
+    return Math.random() * (max - min) + min;
+  },
+  // shim layer with setTimeout fallback based on work by Paul Irish
+  requestAnimFrame: (function() {
+    return (
+      window.requestAnimationFrame ||
+      window.webkitRequestAnimationFrame ||
+      window.mozRequestAnimationFrame ||
+      window.oRequestAnimationFrame ||
+      window.msRequestAnimationFrame ||
+      function(callback) {
+        window.setTimeout(callback, 1000 / 60);
+      }
+    );
+  })()
+};
