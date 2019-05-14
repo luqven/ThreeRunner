@@ -1,5 +1,5 @@
 {
-  "name": "t3g",
+  "name": "BubbleBuster",
   "version": "1.0.0",
   "description": "simple threeJs game",
   "main": "index.js",
@@ -8,13 +8,16 @@
     "http-server": "^0.11.1",
     "lodash": "^4.17.11",
     "three": "^0.104.0",
-    "webpack": "^4.31.0",
+    "webpack": "^4.31.0"
+  },
+  "devDependencies": {
     "webpack-cli": "^3.3.2"
   },
-  "devDependencies": {},
   "scripts": {
-    "test": "test",
-    "build": "webpack --watch --mode=development"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "./node_modules/.bin/webpack --mode=production",
+    "start": "./node_modules/.bin/webpack --mode=production",
+    "webpack": "webpack --mode=development --watch"
   },
   "author": "Luis Ball",
   "license": "ISC"
