@@ -19,7 +19,7 @@
       }
     </style>
   </head>
-  <body id="gameContainer">
+  <body>
     <!--[if lt IE 7]>
       <p class="browsehappy">
         You are using an <strong>outdated</strong> browser. Please
@@ -27,7 +27,20 @@
       </p>
     <![endif]-->
     <br />
-    <canvas id="gameCanvas"></canvas>
+    <div class="pageContainer">
+      <div class="gameControls">
+        <button id="controls-btn">Controls</button>
+        <button id="volume-btn">Volume</button>
+      </div>
+      <div id="gameContainer">
+        <canvas id="gameCanvas"></canvas>
+      </div>
+      <div class="gameInfo">
+        <button>GitHub</button>
+        <button>LinkedIn</button>
+        <button>About</button>
+      </div>
+    </div>
     <script src="./dist/main.js"></script>
   </body>
 </html>

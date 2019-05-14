@@ -3,10 +3,24 @@ body {
   /* background-color: black; */
 }
 
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: auto;
+  margin-top: 15vh;
+}
+
 #gameCanvas {
-  background-color: white;
-  height: 360px;
+  background-color: black;
+  height: 50vw;
+  width: 80vw;
   margin: auto;
   align-content: center;
-  margin-top: 25vh;
+}
+
+#gameContainer {
+  justify-content: center;
+  align-content: center;
+  margin: auto;
 }

@@ -86,6 +86,18 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/gameBoard.js":
+/*!**************************!*\
+  !*** ./src/gameBoard.js ***!
+  \**************************/
+/*! exports provided: Board */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"Board\", function() { return Board; });\n// gameBoard.js\n// exports Board class\n\nclass Board {\n  constructor(props) {\n    this.rows = 5;\n    this.cols = 5;\n    this.board = [];\n    this.pieces = null;\n  }\n\n  init() {\n    this.populateBoard();\n  }\n  // make 2d array of row / cols\n  populateBoard() {\n    for (let i = 0; i < this.rows; i++) {\n      let row = [];\n      for (let j = 0; j < this.cols; j++) {\n        row.push(\"bubble\");\n      }\n      this.board.push(row);\n    }\n    console.log(this.board);\n  }\n\n  update() {}\n}\n\n\n//# sourceURL=webpack:///./src/gameBoard.js?");
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
@@ -94,7 +106,7 @@
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n/* harmony import */ var _utils_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/canvas */ \"./src/utils/canvas.js\");\n// index js file\n\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  console.log(\"webpack is running...\");\n  console.log(\"DOM fully loaded and parsed\");\n  window.requestAnimFrame = _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"Util\"].requestAnimFrame;\n  // create the game canvas\n  const canvas = new _utils_canvas__WEBPACK_IMPORTED_MODULE_1__[\"Canvas\"]({\n    canvas: document.getElementById(\"gameCanvas\"),\n    container: document.getElementById(\"gameContainer\")\n  });\n  // create the game board\n  // create the player\n\n  const draw = () => {\n    window.requestAnimationFrame(draw);\n    // handle game logic\n    canvas.render();\n  };\n\n  window.requestAnimationFrame(draw);\n});\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n/* harmony import */ var _utils_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/canvas */ \"./src/utils/canvas.js\");\n/* harmony import */ var _gameBoard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./gameBoard */ \"./src/gameBoard.js\");\n// index js file\n\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  console.log(\"webpack is running...\");\n  console.log(\"DOM fully loaded and parsed\");\n  window.requestAnimFrame = _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"Util\"].requestAnimFrame;\n  // create the game canvas\n  const canvas = new _utils_canvas__WEBPACK_IMPORTED_MODULE_1__[\"Canvas\"]({\n    canvas: document.getElementById(\"gameCanvas\"),\n    container: document.getElementById(\"gameContainer\"),\n    objects: []\n  });\n  // create the game board\n  const board = new _gameBoard__WEBPACK_IMPORTED_MODULE_2__[\"Board\"]();\n  board.init();\n  // create the player\n\n  const draw = () => {\n    window.requestAnimationFrame(draw);\n    // handle game logic\n    canvas.render();\n  };\n\n  window.requestAnimationFrame(draw);\n});\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
