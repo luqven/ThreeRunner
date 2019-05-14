@@ -9,6 +9,7 @@ import sun from "./sun";
 import ground from "./ground";
 // import player from "./player";
 import bubble from "./bubble";
+import tree from "./tree";
 
 //////////////////////////////////////////
 // Rendering functions
@@ -18,6 +19,7 @@ export function animate() {
   requestAnimationFrame(animate);
 
   player.rotation.x += -0.01;
+  // ground.rotation.x += 0.01;
   // player.rotation.y += -0.01;
 
   render(); // this draws an updated shape
@@ -73,7 +75,8 @@ canvas.appendChild(renderer.domElement);
 // add the shape to the scene
 let player = bubble;
 scene.add(player);
-scene.add(ground);
+scene.add(tree);
+// scene.add(ground);
 
 // add lighting to the scene
 scene.add(sun);

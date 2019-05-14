@@ -9,6 +9,7 @@ const COLORS = {
   lightPink: 0xfffafa,
   lightPurple: 0xcdc1c5,
   lightBlue: 0xe5f2f2,
+  limeGreen: 0x33ff33,
   fogColor: 0xf0fff0
 };
 
