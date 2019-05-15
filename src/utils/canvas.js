@@ -24,12 +24,13 @@ export class Canvas {
 
     this.render = this.render.bind(this);
     this.resize = this.resize.bind(this);
-    this.onMouseMove = this.onMouseMove.bind(this);
+    this.watchMouseMove = this.watchMouseMove.bind(this);
+    this.onMouseClick = this.onMouseClick.bind(this);
     this.onCanvasDidMount = this.onCanvasDidMount.bind(this);
   }
 
   // change cursor pos when mouse moves over canvas container
-  onMouseMove() {
+  watchMouseMove() {
     // console.log("watching mouse movements");
     this.container.addEventListener("mousemove", e => {
       this.mousePos.x = e.offsetX;
@@ -37,6 +38,10 @@ export class Canvas {
       this.mousePos.y = e.offsetY;
     });
     // console.log(this.mousePos);
+  }
+
+  onMouseClick(callback) {
+    this.container.addEventListener("click", callback);
   }
 
   // resize the canvas when it's container resizes
