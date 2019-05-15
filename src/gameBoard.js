@@ -18,9 +18,9 @@ export class Board {
   }
   // make 2d array of row / cols
   populateBoard() {
-    let startX = this.canvas.width / 4;
-    let startY = -40;
-    let gap = 80;
+    let startX = this.canvas.width / 5.5;
+    let startY = -35;
+    let gap = 70;
     let currentX = startX;
     let currentY = startY;
     for (let i = 1; i < this.rows + 1; i++) {

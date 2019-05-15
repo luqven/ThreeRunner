@@ -14,9 +14,9 @@ export class Bubble {
     this.x = props.x;
     this.y = props.y;
     this.ctx = props.canvas.ctx;
-    this.width = 40;
-    this.height = 40;
-    this.radius = 40;
+    this.width = 35;
+    this.height = 35;
+    this.radius = 35;
     this.color = props.color;
     this.value = BUBBLE_VALUES[props.color];
   }
