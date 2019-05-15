@@ -17,16 +17,15 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.onMouseMove();
   // create the game board
   const board = new Board({ canvas: canvas });
-  board.init();
   // create the cannon
   const cannon = new Cannon({ canvas: canvas });
-  cannon.init();
   // render the canvas
   const draw = () => {
     window.requestAnimationFrame(draw);
     // handle game logic
-    // cannon.update(canvas.mousePos.x, canvas.mousePos.y);
     canvas.render();
+    board.init();
+    cannon.update(canvas.mousePos.x, canvas.mousePos.y);
   };
 
   window.requestAnimationFrame(draw);

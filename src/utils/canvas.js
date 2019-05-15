@@ -2,7 +2,7 @@ export class Canvas {
   constructor(props) {
     this.x = 0;
     this.y = 0;
-    this.gameOver = true;
+    this.gameOver = false;
     this.canvas = props.canvas;
     this.ctx = props.canvas.getContext("2d");
     // the canvas's container div or section in the html
