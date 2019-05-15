@@ -17,25 +17,39 @@ export class Cannon {
     this.render();
   }
 
+  // updates the rotation of the cannon
+  // returns null
   update(mouseX, mouseY) {
     let angle = this.mousePosToDegrees(mouseX, mouseY);
+    // save the current context
     this.ctx.save();
+    // set the new center for the context
     let newCenterX = this.x + 0.5 * this.width;
     let newCenterY = this.y + 0.5 * this.height;
     this.ctx.translate(newCenterX, newCenterY);
+    // rotate the context
     this.ctx.rotate(angle);
+    // revert context center back to where it was
     this.ctx.translate(-newCenterX, -newCenterY);
     this.render();
+    // restore context to saved state
     this.ctx.restore();
   }
 
+  // only uses mouseX, but might use mouseY in future
+  // returns float
   mousePosToDegrees(mouseX, mouseY) {
     let centerX = this.x + 6;
     let centerY = this.y;
-    let maxY = 11;
+    let maxMouseY = 11;
     // console.log(newMouseY / 30);
     let midpoint = [centerX - centerX / 2, centerY];
-    let angle = Util.arcTangent(midpoint[0], midpoint[1], mouseX / 35, maxY);
+    let angle = Util.arcTangent(
+      midpoint[0],
+      midpoint[1],
+      mouseX / 35,
+      maxMouseY
+    );
     return angle;
   }
 
