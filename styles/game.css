@@ -13,8 +13,6 @@ body {
 
 #gameCanvas {
   background-color: black;
-  height: 50vw;
-  width: 80vw;
   margin: auto;
   align-content: center;
 }

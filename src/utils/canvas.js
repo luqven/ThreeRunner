@@ -33,7 +33,8 @@ export class Canvas {
     // console.log("watching mouse movements");
     this.container.addEventListener("mousemove", e => {
       this.mousePos.x = e.offsetX;
-      this.mousePos.y = e.offsetY / 1.2;
+      // this.mousePos.y = e.offsetY / 1.2;
+      this.mousePos.y = e.offsetY;
     });
     // console.log(this.mousePos);
   }

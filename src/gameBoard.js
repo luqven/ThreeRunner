@@ -18,15 +18,16 @@ export class Board {
   }
   // make 2d array of row / cols
   populateBoard() {
-    let startX = this.canvas.width / 5.5;
-    let startY = -35;
+    let bubbleDiameter = 70;
+    let startX = this.canvas.width / 2 - bubbleDiameter * 2;
+    let startY = -bubbleDiameter / 2;
     let gap = 70;
     let currentX = startX;
     let currentY = startY;
-    for (let i = 1; i < this.rows + 1; i++) {
+    for (let i = 0; i < this.rows; i++) {
       let row = [];
       currentY += gap;
-      for (let j = 1; j < this.cols + 1; j++) {
+      for (let j = 0; j < this.cols; j++) {
         let bubbleX = currentX + j * gap;
         let bubbleY = currentY;
         let newBubble = new Bubble({
@@ -39,7 +40,6 @@ export class Board {
         });
         newBubble.setCoordinates(bubbleX, bubbleY);
         row.push(newBubble);
-        console.log(newBubble.getCoordinates());
       }
       this.board.push(row);
     }
