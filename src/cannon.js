@@ -2,6 +2,7 @@
 // export Cannon class
 import { Util } from "./utils/globals";
 import { Bubble } from "./bubble";
+import { DashedLine } from "./bulletPath";
 
 export class Cannon {
   constructor(props) {
@@ -14,20 +15,30 @@ export class Cannon {
     this.color = "brown";
     this.ammunition = []; // array bubbles to be shot out
     this.bullet = null; // current bubble to be fired
+    this.tracer = null; // dashed line tracing current angle path
   }
 
   // cannon shooting logic
   init() {
+    let cannonCenterX = this.x + this.width / 2;
+    let cannonCenterY = this.y - 35;
     // add bubble to ammunition array if empty
     if (this.ammunition.length < 1) {
-      let bubbleX = this.x + this.width / 2;
-      let bubbleY = this.y - 20;
+      let bubbleY = this.y - 35;
       this.ammunition.push(
-        new Bubble({ canvas: this.canvas, x: bubbleX, y: bubbleY })
+        new Bubble({ canvas: this.canvas, x: cannonCenterX, y: bubbleY })
       );
     }
     // set the first bubble in ammunition as the current bullet
     this.bullet = this.ammunition.pop();
+    // create a dashed line to where the cannon is pointing
+    this.tracer = new DashedLine({
+      canvas: this.canvas,
+      x: cannonCenterX,
+      y: this.y,
+      cx: cannonCenterX,
+      cy: -150
+    });
   }
 
   // updates the rotation of the cannon
@@ -67,10 +78,11 @@ export class Cannon {
   }
 
   render() {
+    this.tracer.render();
     this.bullet.render();
     this.ctx.beginPath();
     this.ctx.rect(this.x, this.y, this.width, this.height);
-    this.ctx.fillStyle = "#FF0000";
+    this.ctx.fillStyle = "lightBlue";
     this.ctx.fill();
     this.ctx.closePath();
   }
