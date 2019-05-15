@@ -1,6 +1,7 @@
 // cannon.js
 // export Cannon class
 import { Util } from "./utils/globals";
+import { Bubble } from "./bubble";
 
 export class Cannon {
   constructor(props) {
@@ -11,10 +12,22 @@ export class Cannon {
     this.x = props.canvas.width / 2 - this.width / 2;
     this.y = props.canvas.height - 80;
     this.color = "brown";
+    this.ammunition = []; // array bubbles to be shot out
+    this.bullet = null; // current bubble to be fired
   }
 
+  // cannon shooting logic
   init() {
-    this.render();
+    // add bubble to ammunition array if empty
+    if (this.ammunition.length < 1) {
+      let bubbleX = this.x + this.width / 2;
+      let bubbleY = this.y - 20;
+      this.ammunition.push(
+        new Bubble({ canvas: this.canvas, x: bubbleX, y: bubbleY })
+      );
+    }
+    // set the first bubble in ammunition as the current bullet
+    this.bullet = this.ammunition.pop();
   }
 
   // updates the rotation of the cannon
@@ -54,6 +67,7 @@ export class Cannon {
   }
 
   render() {
+    this.bullet.render();
     this.ctx.beginPath();
     this.ctx.rect(this.x, this.y, this.width, this.height);
     this.ctx.fillStyle = "#FF0000";

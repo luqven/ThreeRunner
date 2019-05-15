@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // handle game logic
     canvas.render();
     board.init();
+    cannon.init();
     cannon.update(canvas.mousePos.x, canvas.mousePos.y);
   };
 
