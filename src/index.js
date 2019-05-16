@@ -18,15 +18,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // create the game board
   const board = new Board({ canvas: canvas });
   // create the cannon
+  board.init();
   const cannon = new Cannon({ canvas: canvas, board: board });
+  cannon.init();
+  // add objects to the canvas
+  canvas.objects.push(cannon);
+  canvas.objects.push(board);
   // render the canvas
   const render = () => {
     window.requestAnimationFrame(render);
-    // handle game logic
     canvas.render();
-    board.init();
-    cannon.init();
-    cannon.update(canvas.mousePos.x, canvas.mousePos.y);
   };
 
   window.requestAnimationFrame(render);

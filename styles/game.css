@@ -15,6 +15,7 @@ body {
   background-color: black;
   margin: auto;
   align-content: center;
+  cursor: none;
 }
 
 #gameContainer {

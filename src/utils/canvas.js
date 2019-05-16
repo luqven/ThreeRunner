@@ -1,23 +1,22 @@
 export class Canvas {
   constructor(props) {
-    this.x = 0;
-    this.y = 0;
-    this.gameOver = false;
-    this.canvas = props.canvas;
-    this.ctx = props.canvas.getContext("2d");
-    // the canvas's container div or section in the html
-    this.container = props.container;
-    this.width = this.container.offsetWidth;
-    this.height = this.container.offsetHeight;
-    this.mousePos = {
-      x: this.container.offsetWidth / 2,
-      y: this.container.offsetHeight / 2
-    };
     this.colors = {
       red: "rgba(255, 0, 0)",
       blue: "blue",
       green: "green",
       yellow: "yellow"
+    };
+    this.gameOver = false;
+    this.canvas = props.canvas;
+    this.ctx = props.canvas.getContext("2d");
+    this.container = props.container; // the canvas's container div
+    this.x = 0;
+    this.y = 0;
+    this.width = this.container.offsetWidth;
+    this.height = this.container.offsetHeight;
+    this.mousePos = {
+      x: this.container.offsetWidth / 2,
+      y: this.container.offsetHeight / 2
     };
     this.objects = props.objects; // objects that belong to this canvas
     this.canvasDidMount = false; // bool turns true on first render
@@ -66,5 +65,8 @@ export class Canvas {
       this.onCanvasDidMount();
     }
     this.ctx.clearRect(0, 0, this.width, this.height);
+    this.objects.forEach(object => {
+      object.update();
+    });
   }
 }

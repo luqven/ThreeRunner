@@ -15,29 +15,42 @@ export const Util = {
     let distance = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
     return distance;
   },
-  arcTangent: function(vertex1, vertex2) {
+  radiansToDeg(angle) {
+    return angle * (180 / Math.PI);
+  },
+  arcTangent: function(playerPos, mousePos) {
     // based off answers to:
     // https://stackoverflow.com/questions/9614109/how-to-calculate-an-angle-from-points
-    let cx = vertex1[0],
-      cy = vertex1[1],
-      ex = vertex2[0],
-      ey = vertex2[1],
-      dy = ey - cy,
-      dx = ex - cx,
+    let px = playerPos[0],
+      py = playerPos[1],
+      mx = mousePos[0],
+      my = mousePos[1],
+      dy = my - py,
+      dx = mx - px,
       theta = Math.atan2(dy, dx); // range (-PI, PI]
-    theta *= 180 / Math.PI; // radians to degrees, range (-180, 180]
+    theta = Util.radiansToDeg(theta); // range (0 -  360)
+    if (theta < 0) {
+      theta = 180 + (180 + theta);
+    }
     return theta;
   },
-  // only uses mouseX, but might use mouseY in future
-  // returns float
-  mousePosToAngle: function(x, y, mouseX, mouseY) {
-    let maxMouseY = 11;
-    let midpoint = [x - x / 2, y];
-    let target = [mouseX / 35, maxMouseY];
-    return Util.arcTangent(midpoint, target);
+  mousePosToAngle: function(playerPos, mousePos) {
+    let angle = Util.arcTangent(playerPos, mousePos);
+    // limit angle to always aim up
+    if (angle < 90 || angle > 350) {
+      angle = 350;
+    } else {
+      if (angle < 190) {
+        angle = 190;
+      }
+    }
+    return angle;
   },
-  // shim layer with setTimeout fallback based on work by Paul Irish
+  degToRadians: function(angle) {
+    return angle * (Math.PI / 180);
+  },
   requestAnimFrame: (function() {
+    // shim layer with setTimeout fallback based on work by Paul Irish
     return (
       window.requestAnimationFrame ||
       window.webkitRequestAnimationFrame ||
@@ -54,5 +67,10 @@ export const Util = {
     blue: "blue",
     green: "green",
     yellow: "yellow"
+  },
+  getRandomColor: function() {
+    let options = Object.keys(Util.colors);
+    let selectedColor = options[Util.getRandom(0, 4)];
+    return Util.colors[selectedColor];
   }
 };

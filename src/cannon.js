@@ -9,71 +9,42 @@ export class Cannon {
     this.canvas = props.canvas;
     this.ctx = props.canvas.ctx;
     this.board = props.board;
-    this.width = 50;
+    this.width = 5;
     this.height = 180;
     this.mouseX = null;
     this.mouseY = null;
-    this.x = props.canvas.width / 2 - this.width / 2;
+    this.x = props.canvas.width / 2 - this.width;
     this.y = props.canvas.height - 80;
     this.color = "brown";
-    this.ammunition = []; // array bubbles to be shot out
-    this.bullet = null; // current bubble to be fired
-    this.bulletPath = null; // dashed line tracing current angle path
   }
 
-  // cannon shooting logic
-  init() {
-    // add bubble to ammunition array
-    this.addAmmunition();
-    // set the first bubble in ammunition as the bullet
-    this.bullet = this.ammunition.pop();
-    // create a dashed line to where the cannon is pointing
-  }
+  init() {}
 
-  // adds bubble to ammunition array if empty
   // returns null
-  addAmmunition() {
-    let cannonCenterX = this.x + this.width / 2;
-    let cannonCenterY = this.y - 35;
-    if (this.ammunition.length < 1) {
-      let bubbleY = this.canvas.height;
-      this.ammunition.push(
-        new Bubble({
-          canvas: this.canvas,
-          x: cannonCenterX,
-          y: bubbleY
-        })
-      );
-    }
-  }
-
-  // updates the rotation of the cannon
-  // returns null
-  update(mouseX, mouseY) {
-    this.mouseX = mouseX;
-    this.mouseY = mouseY;
-    let angle = Util.mousePosToAngle(this.x + 6, this.y, mouseX, mouseY);
-    // save the current context
-    this.ctx.save();
-    // set the new center for the context
-    let newCenterX = this.x + 0.5 * this.width;
-    let newCenterY = this.y + 0.5 * this.height;
-    this.ctx.translate(newCenterX, newCenterY);
-    // rotate the context
-    this.ctx.rotate(angle);
-    // revert context center back to where it was
-    this.ctx.translate(-newCenterX, -newCenterY);
+  update() {
+    this.mouseX = this.canvas.mousePos.x;
+    this.mouseY = this.canvas.mousePos.y;
     this.render();
-    // restore context to saved state
-    this.ctx.restore();
-    this.bullet.render();
+  }
+
+  drawCannon(x, y) {
+    let mouseAngle = Util.mousePosToAngle([x, y], [this.mouseX, this.mouseY]);
+    let mult1 = Math.cos(Util.degToRadians(mouseAngle));
+    let mult2 = Math.sin(Util.degToRadians(mouseAngle));
+    let newX = x + 1.5 * this.width * mult1 * 50;
+    let newY = y + 1.5 * this.height * mult2;
+    debugger;
+    //render the line from player to mouse
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = Util.colors["red"];
+    this.ctx.beginPath();
+    this.ctx.moveTo(x, y);
+    this.ctx.lineTo(newX, newY);
+    this.ctx.stroke();
+    debugger;
   }
 
   render() {
-    this.ctx.beginPath();
-    this.ctx.rect(this.x, this.y, this.width, this.height);
-    this.ctx.fillStyle = "lightBlue";
-    this.ctx.fill();
-    this.ctx.closePath();
+    this.drawCannon(this.x, this.y);
   }
 }
