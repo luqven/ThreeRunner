@@ -3,6 +3,7 @@ import { Util } from "./utils/globals";
 import { Canvas } from "./utils/canvas";
 import { Board } from "./gameBoard";
 import { Cannon } from "./cannon";
+import Game from "./game";
 document.addEventListener("DOMContentLoaded", () => {
   console.log("webpack is running...");
   console.log("DOM fully loaded and parsed");
@@ -13,24 +14,13 @@ document.addEventListener("DOMContentLoaded", () => {
     container: document.getElementById("gameContainer"),
     objects: []
   });
-  // save the mouse position on the canvas on mouse move
-  // canvas.watchMouseMove();
-  canvas.watchMouseDown();
-  canvas.watchMouseUp();
-  canvas.watchMouseMove();
-  // create the game board
-  const board = new Board({ canvas: canvas });
-  // create the cannon
-  board.init();
-  const cannon = new Cannon({ canvas: canvas, board: board });
-  cannon.init();
-  // add objects to the canvas
-  canvas.objects.push(cannon);
-  canvas.objects.push(board);
-  // render the canvas
+  // initialize the game
+  const game = new Game({ canvas });
+  game.init();
+  // render the game
   const render = () => {
     window.requestAnimationFrame(render);
-    canvas.render();
+    game.render();
   };
 
   window.requestAnimationFrame(render);

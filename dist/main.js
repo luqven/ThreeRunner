@@ -110,6 +110,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 
 /***/ }),
 
+/***/ "./src/game.js":
+/*!*********************!*\
+  !*** ./src/game.js ***!
+  \*********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, \"default\", function() { return Game; });\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n/* harmony import */ var _gameBoard__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./gameBoard */ \"./src/gameBoard.js\");\n/* harmony import */ var _cannon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./cannon */ \"./src/cannon.js\");\n// game.js file\n// exports Game class\n\n\n\n\n\nclass Game {\n  constructor(props) {\n    this.canvas = props.canvas;\n  }\n  init() {\n    // save the mouse position on the canvas\n    this.canvas.watchMouseDown();\n    this.canvas.watchMouseUp();\n    this.canvas.watchMouseMove();\n    // create the game board\n    this.board = new _gameBoard__WEBPACK_IMPORTED_MODULE_1__[\"Board\"]({ canvas: this.canvas });\n    // create the cannon\n    this.board.init();\n    this.cannon = new _cannon__WEBPACK_IMPORTED_MODULE_2__[\"Cannon\"]({ canvas: this.canvas, board: this.board });\n    this.cannon.init();\n    // add objects to the canvas\n    this.canvas.objects.push(this.cannon);\n    this.canvas.objects.push(this.board);\n  }\n  render() {\n    this.canvas.render();\n  }\n}\n\n\n//# sourceURL=webpack:///./src/game.js?");
+
+/***/ }),
+
 /***/ "./src/gameBoard.js":
 /*!**************************!*\
   !*** ./src/gameBoard.js ***!
@@ -130,7 +142,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export (binding) *
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n/* harmony import */ var _utils_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/canvas */ \"./src/utils/canvas.js\");\n/* harmony import */ var _gameBoard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./gameBoard */ \"./src/gameBoard.js\");\n/* harmony import */ var _cannon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./cannon */ \"./src/cannon.js\");\n// index js file\n\n\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  console.log(\"webpack is running...\");\n  console.log(\"DOM fully loaded and parsed\");\n  window.requestAnimFrame = _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"Util\"].requestAnimFrame;\n  // create the game canvas\n  const canvas = new _utils_canvas__WEBPACK_IMPORTED_MODULE_1__[\"Canvas\"]({\n    canvas: document.getElementById(\"gameCanvas\"),\n    container: document.getElementById(\"gameContainer\"),\n    objects: []\n  });\n  // save the mouse position on the canvas on mouse move\n  // canvas.watchMouseMove();\n  canvas.watchMouseDown();\n  canvas.watchMouseUp();\n  canvas.watchMouseMove();\n  // create the game board\n  const board = new _gameBoard__WEBPACK_IMPORTED_MODULE_2__[\"Board\"]({ canvas: canvas });\n  // create the cannon\n  board.init();\n  const cannon = new _cannon__WEBPACK_IMPORTED_MODULE_3__[\"Cannon\"]({ canvas: canvas, board: board });\n  cannon.init();\n  // add objects to the canvas\n  canvas.objects.push(cannon);\n  canvas.objects.push(board);\n  // render the canvas\n  const render = () => {\n    window.requestAnimationFrame(render);\n    canvas.render();\n  };\n\n  window.requestAnimationFrame(render);\n});\n\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _utils_globals__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/globals */ \"./src/utils/globals.js\");\n/* harmony import */ var _utils_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/canvas */ \"./src/utils/canvas.js\");\n/* harmony import */ var _gameBoard__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./gameBoard */ \"./src/gameBoard.js\");\n/* harmony import */ var _cannon__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./cannon */ \"./src/cannon.js\");\n/* harmony import */ var _game__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./game */ \"./src/game.js\");\n// index js file\n\n\n\n\n\ndocument.addEventListener(\"DOMContentLoaded\", () => {\n  console.log(\"webpack is running...\");\n  console.log(\"DOM fully loaded and parsed\");\n  window.requestAnimFrame = _utils_globals__WEBPACK_IMPORTED_MODULE_0__[\"Util\"].requestAnimFrame;\n  // create the game canvas\n  const canvas = new _utils_canvas__WEBPACK_IMPORTED_MODULE_1__[\"Canvas\"]({\n    canvas: document.getElementById(\"gameCanvas\"),\n    container: document.getElementById(\"gameContainer\"),\n    objects: []\n  });\n  // initialize the game\n  const game = new _game__WEBPACK_IMPORTED_MODULE_4__[\"default\"]({ canvas });\n  game.init();\n  // render the game\n  const render = () => {\n    window.requestAnimationFrame(render);\n    game.render();\n  };\n\n  window.requestAnimationFrame(render);\n});\n\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
