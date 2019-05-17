@@ -2,7 +2,6 @@
 // export Cannon class
 import { Util } from "./utils/globals";
 import { Bubble } from "./bubble";
-import { DashedLine } from "./bulletPath";
 
 export class Cannon {
   constructor(props) {
