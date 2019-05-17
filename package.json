@@ -1,7 +1,7 @@
 {
   "name": "BubbleBuster",
   "version": "1.0.0",
-  "description": "simple threeJs game",
+  "description": "simple javascript and canvas game",
   "main": "index.js",
   "dependencies": {
     "file-loader": "^3.0.1",
