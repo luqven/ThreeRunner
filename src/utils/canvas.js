@@ -16,15 +16,22 @@ export class Canvas {
     this.height = this.container.offsetHeight;
     this.mousePos = {
       x: this.container.offsetWidth / 2,
-      y: this.container.offsetHeight / 2
+      y: this.container.offsetHeight / 2,
+      clickX: null,
+      clickY: null,
+      releaseX: null,
+      releaseY: null,
+      dragDir: 0,
+      dragDelta: 0
     };
     this.objects = props.objects; // objects that belong to this canvas
     this.canvasDidMount = false; // bool turns true on first render
+    this.isDragging = false;
 
     this.render = this.render.bind(this);
     this.resize = this.resize.bind(this);
     this.watchMouseMove = this.watchMouseMove.bind(this);
-    this.onMouseClick = this.onMouseClick.bind(this);
+    this.watchMouseClick = this.watchMouseClick.bind(this);
     this.onCanvasDidMount = this.onCanvasDidMount.bind(this);
   }
 
@@ -39,8 +46,41 @@ export class Canvas {
     // console.log(this.mousePos);
   }
 
-  onMouseClick(callback) {
-    this.container.addEventListener("click", callback);
+  // save mouse click location on click
+  watchMouseClick() {
+    this.container.addEventListener("click", e => {
+      this.mousePos.clickX = e.offsetX;
+      this.mousePos.clickY = e.offsetY;
+    });
+  }
+
+  watchMouseDown() {
+    this.container.addEventListener("mousedown", e => {
+      this.mousePos.clickX = e.offsetX;
+      this.mousePos.clickY = e.offsetY;
+      this.isDragging = true;
+    });
+  }
+  watchMouseUp() {
+    this.container.addEventListener("mouseup", e => {
+      this.mousePos.releaseX = e.offsetX;
+      this.mousePos.releaseY = e.offsetY;
+      this.isDragging = false;
+
+      let xDiff = this.mousePos.clickX - this.mousePos.releaseX;
+
+      if (xDiff < 0) {
+        this.mousePos.dragDir = 1;
+      } else if (xDiff > 0) {
+        this.mousePos.dragDir = -1;
+      } else {
+        this.mousePos.dragDir = 0;
+      }
+
+      // reverse xDiff to match mouse drag direction
+      this.mousePos.dragDelta = Math.abs(xDiff);
+      // console.log(this.mousePos.dragDir, this.mousePos.dragDelta);
+    });
   }
 
   // resize the canvas when it's container resizes

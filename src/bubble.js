@@ -98,7 +98,7 @@ export class Bubble {
   }
   // returns null
   fireAt(bubbles, dX, dY) {
-    debugger;
+    // debugger;
     this.deltaX = dX;
     this.deltaY = dY;
     let loops = 0;
@@ -127,7 +127,7 @@ export class Bubble {
         console.log("bubble hit");
         hit = true;
         this.collided = true;
-        debugger;
+        // debugger;
       }
     });
     return hit;

@@ -14,6 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
     objects: []
   });
   // save the mouse position on the canvas on mouse move
+  // canvas.watchMouseMove();
+  canvas.watchMouseDown();
+  canvas.watchMouseUp();
   canvas.watchMouseMove();
   // create the game board
   const board = new Board({ canvas: canvas });

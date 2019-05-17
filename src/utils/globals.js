@@ -18,13 +18,13 @@ export const Util = {
   radiansToDeg(angle) {
     return angle * (180 / Math.PI);
   },
-  arcTangent: function(playerPos, mousePos) {
+  arcTangent: function(playerPos, newPos) {
     // based off answers to:
     // https://stackoverflow.com/questions/9614109/how-to-calculate-an-angle-from-points
     let px = playerPos[0],
       py = playerPos[1],
-      mx = mousePos[0],
-      my = mousePos[1],
+      mx = newPos[0],
+      my = newPos[1],
       dy = my - py,
       dx = mx - px,
       theta = Math.atan2(dy, dx); // range (-PI, PI]
@@ -34,8 +34,8 @@ export const Util = {
     }
     return theta;
   },
-  mousePosToAngle: function(playerPos, mousePos) {
-    let angle = Util.arcTangent(playerPos, mousePos);
+  getAngleFromPos: function(playerPos, newPos) {
+    let angle = Util.arcTangent(playerPos, newPos);
     // limit angle to always aim up
     if (angle < 90 || angle > 350) {
       angle = 350;
