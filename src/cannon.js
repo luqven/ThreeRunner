@@ -1,7 +1,6 @@
 // cannon.js
 // export Cannon class
 import { Util } from "./utils/globals";
-import { Bubble } from "./bubble";
 
 export class Cannon {
   constructor(props) {

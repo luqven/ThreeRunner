@@ -90,30 +90,12 @@ export class Bubble {
   fall() {
     this.deltaX = 0;
     this.deltaY = -1;
-    while (!this.hitWalls(0, this.canvas.width, 0, this.canvas.height)) {
-      let newX = this.x + this.deltaX;
-      let newY = this.y + this.deltaY;
-      this.updateCoords(newX, newY);
-    }
+    // while (!this.hitWalls(0, this.canvas.width, 0, this.canvas.height)) {
+    let newX = this.x + this.deltaX;
+    let newY = this.y + this.deltaY;
+    this.updateCoords(newX, newY);
+    // }
   }
-  // returns null
-  fireAt(bubbles, dX, dY) {
-    // debugger;
-    this.deltaX = dX;
-    this.deltaY = dY;
-    let loops = 0;
-    while (!this.collided && loops < 6) {
-      loops++;
-      // handle bubble collisions
-      this.hitBubble(bubbles, [this.x, this.y]);
-      // handle wall collisions
-      this.hitWalls(0, this.canvas.width, 0, this.canvas.height);
-      let newX = this.x + this.deltaX;
-      let newY = this.y + this.deltaY;
-      this.updateCoords(newX, newY);
-    }
-  }
-
   // bubbles =  [ BubbleObject, ... ]
   // currentPos = [ x, y ]
   hitBubble(bubbles, currentPos) {
@@ -131,34 +113,6 @@ export class Bubble {
       }
     });
     return hit;
-  }
-
-  // helper hat saves array of walls hit
-  // returns bool
-  hitWalls(leftWAll, rightWall, botWall, topWall) {
-    let midPoint = [this.x, this.y];
-    this.wallsHit = [];
-    // if midP +/- radius <=> wall -> wall hit
-    if (midPoint[0] - this.radius <= leftWAll[0]) {
-      this.wallsHit.push(2);
-      this.reverseDeltaX();
-    } else if (midPoint[0] + this.radius >= rightWall[0]) {
-      this.wallsHit.push(2);
-      this.reverseDeltaX();
-    }
-    if (midPoint[1] - this.radius <= topWall[1]) {
-      this.wallsHit.push(0);
-      this.reverseDeltaY();
-    } else if (midPoint[1] + this.radius >= botWall[1]) {
-      this.wallsHit.push(0);
-      this.reverseDeltaY();
-    }
-    if (this.wallsHit.length < 1) {
-      return false;
-    }
-    if (this.wallsHit.length > 1) {
-      return true;
-    }
   }
 
   update() {

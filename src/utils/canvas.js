@@ -14,6 +14,12 @@ export class Canvas {
     this.y = 0;
     this.width = this.container.offsetWidth;
     this.height = this.container.offsetHeight;
+    this.walls = {
+      left: { x: 0, y: 0 },
+      right: { x: this.width, y: 0 },
+      bot: { x: 0, y: 0 },
+      top: { x: 0, y: this.height }
+    };
     this.mousePos = {
       x: this.container.offsetWidth / 2,
       y: this.container.offsetHeight / 2,
@@ -27,6 +33,7 @@ export class Canvas {
     this.objects = props.objects; // objects that belong to this canvas
     this.canvasDidMount = false; // bool turns true on first render
     this.isDragging = false;
+    this.pressedKey = null;
 
     this.render = this.render.bind(this);
     this.resize = this.resize.bind(this);
@@ -80,6 +87,12 @@ export class Canvas {
       // reverse xDiff to match mouse drag direction
       this.mousePos.dragDelta = Math.abs(xDiff);
       // console.log(this.mousePos.dragDir, this.mousePos.dragDelta);
+    });
+  }
+
+  watchKeyPress() {
+    document.addEventListener("keydown", e => {
+      this.pressedKey = e.key;
     });
   }
 

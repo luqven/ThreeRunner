@@ -11,6 +11,7 @@ export class Board {
     this.pieceHeight = 35;
     this.pieces = [];
     this.canvas = props.canvas;
+    this.walls = this.canvas.walls;
   }
 
   init() {
@@ -77,6 +78,44 @@ export class Board {
     return bubble;
   }
 
+  // helper hat saves array of walls hit
+  // returns bool
+  wallsHit(object) {
+    let midPoint = { x: object.x, y: object.y };
+    let radius = this.radius;
+    object.wallsHit = [];
+
+    // if midP +/- radius <=> wall -> wall hit
+    if (midPoint.x - radius <= this.walls.left.x) {
+      object.wallsHit.push(2);
+      object.reverseDeltaX();
+    } else if (midPoint.x + radius >= this.walls.right.x) {
+      object.wallsHit.push(2);
+      object.reverseDeltaX();
+    }
+    if (midPoint.y - radius <= this.walls.top.y) {
+      object.wallsHit.push(0);
+      object.reverseDeltaY();
+    } else if (midPoint.y + radius >= this.walls.bot.y) {
+      object.wallsHit.push(0);
+      object.reverseDeltaY();
+    }
+    if (object.wallsHit.length < 1) {
+      return false;
+    }
+    if (object.wallsHit.length > 1) {
+      return true;
+    }
+  }
+
+  shoot(bullet) {
+    speed = { x: 1, y: 1 };
+    // fire the bullet
+    bullet.fireAt(this.pieces, speed.x, speed.y);
+    // check if the bullet hit a wall
+    this.wallsHit(bullet);
+  }
+
   render() {
     for (let i = 0; i < this.rows; i++) {
       let row = this.pieces[i];
@@ -84,6 +123,11 @@ export class Board {
         let bubble = row[j];
         bubble.render();
       }
+    }
+    if (this.canvas.pressedKey === " ") {
+      console.log("fire");
+      debugger;
+      this.canvas.pressedKey = null;
     }
   }
 }

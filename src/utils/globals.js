@@ -1,7 +1,4 @@
 export const Util = {
-  inherits: function inherits(childClass, parentClass) {
-    // TODO: allow classes to inherit
-  },
   getRandom: function(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
   },
