@@ -1,9 +1,8 @@
 // index js file
 import { Util } from "./utils/globals";
 import { Canvas } from "./utils/canvas";
-import { Board } from "./gameBoard";
-import { Cannon } from "./cannon";
 import Game from "./game";
+
 document.addEventListener("DOMContentLoaded", () => {
   console.log("webpack is running...");
   console.log("DOM fully loaded and parsed");
