@@ -6,5 +6,6 @@ import { Bubble } from "./bubble";
 export default class Ammunition extends Bubble {
   constructor(props) {
     super(props);
+    this.type = "ammo";
   }
 }
