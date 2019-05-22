@@ -82,41 +82,57 @@ export class Board {
 
   // helper hat saves array of walls hit
   // returns bool
-  wallsHit(object) {
-    let midPoint = { x: object.x, y: object.y };
-    let radius = this.radius;
-    object.wallsHit = [];
-
+  wallsHit() {
+    let midPoint = { x: this.bullet.x, y: this.bullet.y };
+    let radius = this.bullet.radius;
+    this.bullet.wallsHit = [];
+    debugger;
     // if midP +/- radius <=> wall -> wall hit
     if (midPoint.x - radius <= this.walls.left.x) {
-      object.wallsHit.push(2);
-      object.reverseDeltaX();
+      this.bullet.wallsHit.push(2);
+      this.bullet.reverseDeltaX();
+      debugger;
     } else if (midPoint.x + radius >= this.walls.right.x) {
-      object.wallsHit.push(2);
-      object.reverseDeltaX();
+      this.bullet.wallsHit.push(2);
+      this.bullet.reverseDeltaX();
+      debugger;
     }
-    if (midPoint.y - radius <= this.walls.top.y) {
-      object.wallsHit.push(0);
-      object.reverseDeltaY();
-    } else if (midPoint.y + radius >= this.walls.bot.y) {
-      object.wallsHit.push(0);
-      object.reverseDeltaY();
+    if (midPoint.y - radius >= this.walls.top.y) {
+      this.bullet.wallsHit.push(0);
+      this.bullet.reverseDeltaY();
+      debugger;
+    } else if (midPoint.y + radius <= this.walls.bot.y) {
+      this.bullet.wallsHit.push(0);
+      this.bullet.reverseDeltaY();
+      debugger;
     }
-    if (object.wallsHit.length < 1) {
+    if (this.bullet.wallsHit.length < 1) {
       return false;
     }
-    if (object.wallsHit.length > 1) {
+    if (this.bullet.wallsHit.length > 1) {
       return true;
     }
   }
 
   fire() {
     console.log("fire");
-    let speed = { x: 0.2, y: -0.2 };
+    let location = { x: this.cannon.x, y: this.cannon.y };
+    let target = { x: this.cannon.newX, y: this.cannon.newY };
+    let speed = this.getDeltas(location, target);
     // fire the bullet
-    this.bullet.fireAt(this.pieces, speed.x, speed.y);
-    // check if the bullet hit a wall
-    this.wallsHit(this.bullet);
+    this.bullet.board = this;
+    this.bullet.deltaX = speed.x;
+    this.bullet.deltaY = speed.y;
+    this.bullet.fire();
+  }
+
+  getDeltas(loc, target) {
+    let distancePerFrame = 5;
+    let angle = Math.atan2(target.y - loc.y, target.x - loc.x);
+    let sin = Math.sin(angle) * distancePerFrame;
+    let cos = Math.cos(angle) * distancePerFrame;
+    let delta = { x: cos, y: sin };
+    return delta;
   }
 
   render() {
@@ -126,10 +142,6 @@ export class Board {
         let bubble = row[j];
         bubble.render();
       }
-    }
-    if (this.canvas.pressedKey === " ") {
-      this.fire();
-      this.canvas.pressedKey = null;
     }
   }
 }

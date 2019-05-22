@@ -64,6 +64,10 @@ export default class Game {
   }
 
   render() {
+    if (this.canvas.pressedKey === " ") {
+      this.board.fire();
+      this.canvas.pressedKey = null;
+    }
     this.canvas.render();
   }
 }

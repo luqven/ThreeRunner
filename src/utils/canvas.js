@@ -15,10 +15,10 @@ export class Canvas {
     this.width = this.container.offsetWidth;
     this.height = this.container.offsetHeight;
     this.walls = {
-      left: { x: 0, y: 0 },
-      right: { x: this.width, y: 0 },
-      bot: { x: 0, y: 0 },
-      top: { x: 0, y: this.height }
+      left: { x: 10, y: 10 },
+      right: { x: this.width - 10, y: 10 },
+      bot: { x: 10, y: 10 },
+      top: { x: 10, y: this.height - 10 }
     };
     this.mousePos = {
       x: this.container.offsetWidth / 2,

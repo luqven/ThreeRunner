@@ -13,13 +13,14 @@ const BUBBLE_VALUES = {
 
 export class Bubble {
   constructor(props) {
-    this.x = props.x;
-    this.y = props.y;
     this.canvas = props.canvas;
     this.ctx = props.canvas.ctx;
+    this.x = props.x;
+    this.y = props.y;
     this.width = 35;
     this.height = 35;
     this.radius = 35;
+    this.board = props.board;
     this.color = props.color;
     this.value = BUBBLE_VALUES[props.color];
     this.deltaX = props.deltaX ? props.deltaX : 0;
@@ -44,7 +45,7 @@ export class Bubble {
   setCoordinates(newX, newY) {
     this.x = newX;
     this.y = newY;
-    this.update();
+    this.render();
   }
   // returns null
   updateCoords(newX, newY) {
@@ -96,11 +97,11 @@ export class Bubble {
     this.updateCoords(newX, newY);
     // }
   }
-  // bubbles =  [ BubbleObject, ... ]
-  // currentPos = [ x, y ]
-  hitBubble(board, currentPos) {
+
+  hitBubble() {
+    let currentPos = [this.x, this.y];
     let hit = false;
-    board.forEach(row => {
+    this.board.pieces.forEach(row => {
       row.forEach(bubble => {
         let bubbleMidpoint = [bubble.x, bubble.y];
         let midpointDelta = Util.getDistanceBetween(bubbleMidpoint, currentPos);
@@ -116,8 +117,20 @@ export class Bubble {
     });
     return hit;
   }
+  // returns null
+  fire() {
+    // check for and handle bubble collisions
+    this.hitBubble();
+    this.board.wallsHit();
+    let newX = this.x + this.deltaX;
+    let newY = this.y + this.deltaY;
+    this.setCoordinates(newX, newY);
+  }
 
   update() {
+    if ((this.deltaX !== 0 || this.deltaY !== 0) && this.collided === false) {
+      this.fire();
+    }
     this.render();
   }
 
