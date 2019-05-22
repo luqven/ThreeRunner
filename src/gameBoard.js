@@ -117,7 +117,7 @@ export class Board {
   fire() {
     console.log("fire");
     let location = { x: this.cannon.x, y: this.cannon.y };
-    let target = { x: this.cannon.newX, y: this.cannon.newY };
+    let target = { x: this.cannon.mouseX, y: this.cannon.mouseY };
     let speed = this.getDeltas(location, target);
     // fire the bullet
     this.bullet.board = this;

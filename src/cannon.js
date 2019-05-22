@@ -9,10 +9,12 @@ export class Cannon {
     this.board = props.board;
     this.width = 5;
     this.height = 180;
-    this.x = props.canvas.width / 2 - this.width;
+    this.x = props.canvas.width / 2;
     this.y = props.canvas.height - 80;
     this.newX = this.x + this.width;
     this.newY = this.y - this.height / 2;
+    this.mouseX = null;
+    this.mouseY = null;
     this.color = "brown";
   }
 
@@ -36,6 +38,8 @@ export class Cannon {
     let mult2 = Math.sin(Util.degToRadians(newAngle));
     let newX = x + 1.5 * this.width * mult1 * 50;
     let newY = y + 1.5 * this.height * mult2;
+    this.mouseX = newX;
+    this.mouseY = newY;
     // debugger;
     //render the line from player to mouse
     this.ctx.lineWidth = 2;

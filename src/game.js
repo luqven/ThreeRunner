@@ -25,8 +25,8 @@ export default class Game {
     this.board.bullet = this.bullet;
     this.board.cannon = this.cannon;
     // add objects to the canvas
-    this.canvas.objects.push(this.cannon);
     this.canvas.objects.push(this.board);
+    this.canvas.objects.push(this.cannon);
     this.canvas.objects.push(this.bullet);
   }
 
