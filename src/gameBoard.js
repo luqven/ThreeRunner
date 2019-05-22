@@ -10,6 +10,8 @@ export class Board {
     this.pieceWidth = 35;
     this.pieceHeight = 35;
     this.pieces = [];
+    this.cannon = props.cannon;
+    this.bullet = props.bullet;
     this.canvas = props.canvas;
     this.walls = this.canvas.walls;
   }
@@ -108,12 +110,13 @@ export class Board {
     }
   }
 
-  shoot(bullet) {
-    speed = { x: 1, y: 1 };
+  fire() {
+    console.log("fire");
+    let speed = { x: 0.2, y: -0.2 };
     // fire the bullet
-    bullet.fireAt(this.pieces, speed.x, speed.y);
+    this.bullet.fireAt(this.pieces, speed.x, speed.y);
     // check if the bullet hit a wall
-    this.wallsHit(bullet);
+    this.wallsHit(this.bullet);
   }
 
   render() {
@@ -125,8 +128,7 @@ export class Board {
       }
     }
     if (this.canvas.pressedKey === " ") {
-      console.log("fire");
-      debugger;
+      this.fire();
       this.canvas.pressedKey = null;
     }
   }

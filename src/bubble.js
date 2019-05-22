@@ -98,19 +98,21 @@ export class Bubble {
   }
   // bubbles =  [ BubbleObject, ... ]
   // currentPos = [ x, y ]
-  hitBubble(bubbles, currentPos) {
+  hitBubble(board, currentPos) {
     let hit = false;
-    bubbles.forEach(bubble => {
-      let bubbleMidpoint = [bubble.x, bubble.y];
-      if (Util.getDistanceBetween(bubbleMidpoint, currentPos) < 1) {
-        if (this.isOfColor(bubble.color)) {
-          console.log("hit same color");
+    board.forEach(row => {
+      row.forEach(bubble => {
+        let bubbleMidpoint = [bubble.x, bubble.y];
+        let midpointDelta = Util.getDistanceBetween(bubbleMidpoint, currentPos);
+        if (midpointDelta < this.radius * 2) {
+          if (this.isOfColor(bubble.color)) {
+            console.log("hit same color");
+          }
+          console.log("bubble hit");
+          hit = true;
+          this.collided = true;
         }
-        console.log("bubble hit");
-        hit = true;
-        this.collided = true;
-        // debugger;
-      }
+      });
     });
     return hit;
   }

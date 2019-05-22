@@ -21,6 +21,9 @@ export default class Game {
     this.createCannon();
     // create and save ammunition
     this.createAmmo();
+    // save the cannon and ammo to the board
+    this.board.bullet = this.bullet;
+    this.board.cannon = this.cannon;
     // add objects to the canvas
     this.canvas.objects.push(this.cannon);
     this.canvas.objects.push(this.board);
