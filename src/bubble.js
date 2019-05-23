@@ -96,9 +96,9 @@ export class Bubble {
     let col = this.col;
     let neighbors = [];
     // shift col on odd rows
-    if (row % 2 != 0) {
-      col = col - 1;
-    }
+    // if (row % 2 != 0) {
+    //   col = col + 1;
+    // }
     let pos = {
       up: { r: row - 1, c: col },
       bot: { r: row + 1, c: col },
@@ -139,11 +139,10 @@ export class Bubble {
         let bubbleMidpoint = [bubble.x, bubble.y];
         let midpointDelta = Util.getDistanceBetween(bubbleMidpoint, currentPos);
         if (midpointDelta < this.radius * 2) {
-          if (this.isOfColor(bubble.color)) {
+          if (bubble.isOfColor(this.color)) {
             console.log("hit same color");
             // drop matching bubbles
             this.dropSameOfColor(bubble);
-            debugger;
             hit = true;
             this.collided = true;
             this.eliminated = true;
@@ -167,7 +166,7 @@ export class Bubble {
         let col = curBubble.col;
         console.log(curBubble.row, col);
         debugger;
-        row.splice(col, 1);
+        row[col] = null;
         curBubble.eliminated = true;
       }
     });

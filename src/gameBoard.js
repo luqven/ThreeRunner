@@ -149,7 +149,7 @@ export class Board {
       let row = this.pieces[i];
       for (let j = 0; j < this.cols; j++) {
         let bubble = row[j];
-        if (bubble !== undefined) {
+        if (bubble !== null && bubble !== undefined) {
           bubble.render();
         }
       }
