@@ -159,9 +159,12 @@ export class Bubble {
 
   // drop neighboring bubbles of same color
   dropNeighbors() {
-    this.neighbors.forEach(neighbor => {
-      if (neighbor.isOfColor(this.color)) {
+    debugger;
+    this.neighbors.forEach((neighbor, idx) => {
+      if (neighbor !== null && neighbor.isOfColor(this.color)) {
+        this.neighbors[idx] = null;
         neighbor.delete();
+        neighbor.dropNeighbors();
       }
       // let curNeighbors = neighbor.neighbors;
       // // check for same color in all the neighbors
