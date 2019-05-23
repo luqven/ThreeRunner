@@ -115,9 +115,9 @@ export class Bubble {
       left: { r: row, c: col - 1 },
       right: { r: row, c: col + 1 },
       uLeft: { r: row - 1, c: col - 1 },
-      uRight: { r: row - 1, c: col + 1 },
-      bLeft: { r: row + 1, c: col - 1 },
-      bRight: { r: row + 1, c: col + 1 }
+      uRight: { r: row - 1, c: col + 1 }
+      // bLeft: { r: row + 1, c: col - 1 },
+      // bRight: { r: row + 1, c: col + 1 }
     };
   }
   // check if bubble has hit another bubble
