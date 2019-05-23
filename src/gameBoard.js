@@ -47,7 +47,7 @@ export class Board {
     for (let row = 0; row < this.rows; row++) {
       for (let col = 0; col < this.cols; col++) {
         let pos = this.getBubbleLocAt(row, col);
-        this.pieces[row][col] = this.drawBubbleAt(pos.x, pos.y);
+        this.pieces[row][col] = this.drawBubbleAt(pos.x, pos.y, row, col);
       }
     }
     this.pieces.forEach(row => {
@@ -73,19 +73,23 @@ export class Board {
   }
 
   getBoardPosAt(loc) {
-    let row = Math.floor(loc.x / 2 / this.pieceWidth) - 2;
-    let col = Math.floor(loc.y / 2 / (this.pieceHeight - this.rOffset));
+    let row = Math.floor(loc.x / 2 / this.pieceWidth - this.tOffset);
+    let col = Math.floor(
+      loc.y / 2 / (this.pieceHeight - this.rOffset) - this.lOffset
+    );
     let gridPos = { r: row, c: col };
     return gridPos;
   }
 
-  drawBubbleAt(x, y) {
+  drawBubbleAt(x, y, row, col) {
     let bubble = new Bubble({
       canvas: this.canvas,
       color: Util.getRandomColor(),
       board: this,
       x: x,
-      y: y
+      y: y,
+      row: row,
+      col: col
     });
     return bubble;
   }

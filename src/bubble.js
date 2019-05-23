@@ -92,20 +92,21 @@ export class Bubble {
 
   getNeighbors() {
     // find the row col at the given [x, y]
-    let boardPos = this.board.getBoardPosAt({ x: this.x, y: this.y });
-    let row = boardPos.r;
-    let col = boardPos.c;
+    let row = this.row;
+    let col = this.col;
     let neighbors = [];
     // shift col on odd rows
-    if (row % 2 === 0) {
+    if (row % 2 != 0) {
       col = col - 1;
     }
     let pos = {
-      uLeft: { r: row - 1, c: col },
-      uRight: { r: row - 1, c: col + 1 },
+      up: { r: row - 1, c: col },
+      bot: { r: row + 1, c: col },
       left: { r: row, c: col - 1 },
       right: { r: row, c: col + 1 },
-      bLeft: { r: row + 1, c: col },
+      uLeft: { r: row - 1, c: col - 1 },
+      uRight: { r: row - 1, c: col + 1 },
+      bLeft: { r: row + 1, c: col - 1 },
       bRight: { r: row + 1, c: col + 1 }
     };
     Object.values(pos).forEach(loc => {
@@ -142,9 +143,11 @@ export class Bubble {
             console.log("hit same color");
             // drop matching bubbles
             this.dropSameOfColor(bubble);
+            debugger;
             hit = true;
             this.collided = true;
             this.eliminated = true;
+            this.board.pieces[bubble.row].splice(bubble.col, 1);
           } else {
             console.log("bubble hit");
             hit = true;
@@ -160,15 +163,11 @@ export class Bubble {
     let matched = [];
     hitBubble.neighbors.forEach(curBubble => {
       if (curBubble.isOfColor(hitBubble.color)) {
-        let boardLoc = this.board.getBoardPosAt({
-          x: curBubble.x,
-          y: curBubble.y
-        });
-        let row = this.board.pieces[boardLoc.r];
-        let col = boardLoc.c;
+        let row = this.board.pieces[curBubble.row];
+        let col = curBubble.col;
+        console.log(curBubble.row, col);
         debugger;
         row.splice(col, 1);
-        debugger;
         curBubble.eliminated = true;
       }
     });
