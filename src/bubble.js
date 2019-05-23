@@ -109,15 +109,22 @@ export class Bubble {
   }
   // get row, col values at [u, d, l, r, uR, uL, dR, dL]
   getPosToCheck(row, col) {
+    let oddOffset = 0;
+    let eventOffset = 0;
+    if (row % 2 !== 0) {
+      oddOffset = 1;
+    } else {
+      eventOffset = -1;
+    }
     return {
       up: { r: row - 1, c: col },
       bot: { r: row + 1, c: col },
       left: { r: row, c: col - 1 },
       right: { r: row, c: col + 1 },
-      uLeft: { r: row - 1, c: col - 1 },
-      uRight: { r: row - 1, c: col + 1 }
-      // bLeft: { r: row + 1, c: col - 1 },
-      // bRight: { r: row + 1, c: col + 1 }
+      uLeft: { r: row - 1, c: col - 1 + oddOffset },
+      uRight: { r: row - 1, c: col + oddOffset + eventOffset },
+      bLeft: { r: row + 1, c: col - 1 + oddOffset },
+      bRight: { r: row + 1, c: col + 1 + eventOffset }
     };
   }
   // check if bubble has hit another bubble
@@ -166,16 +173,8 @@ export class Bubble {
         neighbor.delete();
         neighbor.dropNeighbors();
       }
-      // let curNeighbors = neighbor.neighbors;
-      // // check for same color in all the neighbors
-      // curNeighbors.forEach(neighbor => {
-      //   if (neighbor.isOfColor(this.color)) {
-      //     neighbor.delete();
-      //   }
-      // });
     });
   }
-
   // eliminate this bubble from the game board
   delete() {
     let row = this.board.pieces[this.row];
@@ -183,8 +182,7 @@ export class Bubble {
     row[col] = null;
     this.eliminated = true;
   }
-
-  // returns null
+  // shoot the bubble
   fire() {
     // check for and handle bubble collisions
     this.bubbleHit();
@@ -194,7 +192,7 @@ export class Bubble {
     let newY = this.y + this.deltaY;
     this.setCoordinates(newX, newY);
   }
-
+  // gets called every frame
   update() {
     if (!this.eliminated) {
       if ((this.deltaX !== 0 || this.deltaY !== 0) && this.collided === false) {
@@ -203,7 +201,7 @@ export class Bubble {
       this.render();
     }
   }
-
+  // draw the bubble
   render() {
     this.ctx.beginPath();
     this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
