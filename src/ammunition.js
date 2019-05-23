@@ -8,4 +8,10 @@ export default class Ammunition extends Bubble {
     super(props);
     this.type = "ammo";
   }
+
+  delete() {
+    this.eliminated = true;
+    this.deltaX = 0;
+    this.deltaY = 0;
+  }
 }

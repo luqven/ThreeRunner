@@ -24,33 +24,30 @@ export class Bubble {
     this.radius = 35;
     this.board = props.board;
     this.color = props.color;
-    this.value = BUBBLE_VALUES[props.color];
+    this.value = BUBBLE_VALUES[props.color]; // point value of bubble
     this.deltaX = props.deltaX ? props.deltaX : 0;
     this.deltaY = props.deltaY ? props.deltaY : 0;
-    this.collided = false;
-    this.eliminated = false;
-    this.neighbors = null;
+    this.collided = false; // if bubble has hit another bubble
+    this.eliminated = false; // if bubble has been popped
+    this.neighbors = null; // bubbles at [u, d, l, r, uR, uL, dR, dL]
   }
-
-  // returns null
   reverseDeltaX() {
     this.deltaX = this.deltaX * -1;
   }
-  // returns null
   reverseDeltaY() {
     this.deltaY = this.deltaY * -1;
   }
-  // returns [x, y]
+  // returns [x, y] loc of bubble
   getCoordinates() {
     return [this.x, this.y];
   }
-  // returns null
+  // changes [x, y] loc of bubble
   setCoordinates(newX, newY) {
     this.x = newX;
     this.y = newY;
     this.render();
   }
-  // returns null
+  // changes orientation of bubble
   updateCoords(newX, newY) {
     this.ctx.save();
     this.ctx.translate(newX, newY);
@@ -62,7 +59,7 @@ export class Bubble {
   getDimensions() {
     return [this.width, this.height];
   }
-  // returns null
+  // changes [w, h]
   setDimensions(newW, newH) {
     this.width = newW;
     this.height = newH;
@@ -71,7 +68,7 @@ export class Bubble {
   getAttributes() {
     return [getCoordinates(), getDimensions()];
   }
-  // returns null
+  // changes coordinates and or dimensions
   updateAttributes(newCoords, newDims) {
     let newX, newY, newW, newH;
     if (newCoords) {
@@ -85,11 +82,10 @@ export class Bubble {
       this.setDimensions(newW, newH);
     }
   }
-  // returns bool
   isOfColor(otherColor) {
     return this.color === otherColor;
   }
-
+  // saves array of neighboring bubbles
   getNeighbors() {
     // find the row col at the given [x, y]
     let row = this.row;
@@ -99,7 +95,21 @@ export class Bubble {
     // if (row % 2 != 0) {
     //   col = col + 1;
     // }
-    let pos = {
+    let positions = this.getPosToCheck(row, col);
+    Object.values(positions).forEach(pos => {
+      if (this.board.pieces[pos.r] !== undefined) {
+        let row = this.board.pieces[pos.r];
+        if (this.board.pieces[pos.r][pos.c] !== undefined) {
+          let bubble = row[pos.c];
+          neighbors.push(bubble);
+        }
+      }
+    });
+    this.neighbors = neighbors;
+  }
+  // get row, col values at [u, d, l, r, uR, uL, dR, dL]
+  getPosToCheck(row, col) {
+    return {
       up: { r: row - 1, c: col },
       bot: { r: row + 1, c: col },
       left: { r: row, c: col - 1 },
@@ -109,73 +119,72 @@ export class Bubble {
       bLeft: { r: row + 1, c: col - 1 },
       bRight: { r: row + 1, c: col + 1 }
     };
-    Object.values(pos).forEach(loc => {
-      if (this.board.pieces[loc.r] !== undefined) {
-        let row = this.board.pieces[loc.r];
-        if (this.board.pieces[loc.r][loc.c] !== undefined) {
-          let bubble = row[loc.c];
-          neighbors.push(bubble);
-        }
-      }
-    });
-    this.neighbors = neighbors;
   }
-
-  // returns null
-  fall() {
-    this.deltaX = 0;
-    this.deltaY = -1;
-    // while (!this.hitWalls(0, this.canvas.width, 0, this.canvas.height)) {
-    let newX = this.x + this.deltaX;
-    let newY = this.y + this.deltaY;
-    this.updateCoords(newX, newY);
-    // }
-  }
-  hitBubble() {
+  // check if bubble has hit another bubble
+  bubbleHit() {
     let currentPos = [this.x, this.y];
+    let pieces = this.board.pieces;
     let hit = false;
-    this.board.pieces.forEach(row => {
+
+    pieces.forEach(row => {
       row.forEach(bubble => {
-        let bubbleMidpoint = [bubble.x, bubble.y];
-        let midpointDelta = Util.getDistanceBetween(bubbleMidpoint, currentPos);
-        if (midpointDelta < this.radius * 2) {
-          if (bubble.isOfColor(this.color)) {
-            console.log("hit same color");
-            // drop matching bubbles
-            this.dropSameOfColor(bubble);
+        if (bubble) {
+          let bubbleMidpoint = [bubble.x, bubble.y];
+          let midpointDiff = Util.getDistanceBetween(
+            bubbleMidpoint,
+            currentPos
+          );
+          if (midpointDiff < this.radius * 2) {
             hit = true;
-            this.collided = true;
-            this.eliminated = true;
-            this.board.pieces[bubble.row].splice(bubble.col, 1);
-          } else {
-            console.log("bubble hit");
-            hit = true;
-            this.collided = true;
+            this.handleHit(bubble);
           }
         }
       });
     });
     return hit;
   }
+  // checks if bubble of same color, drops all neighbors if true
+  handleHit(bubble) {
+    if (bubble.isOfColor(this.color)) {
+      this.dropSameOfColor(bubble);
+      this.delete();
+    } else {
+      this.collided = true;
+    }
+  }
 
   dropSameOfColor(hitBubble) {
-    let matched = [];
+    // drop the hit bubble
+    hitBubble.collided = true;
+    hitBubble.eliminated = true;
+    // check if any neighbor is of the same color
     hitBubble.neighbors.forEach(curBubble => {
       if (curBubble.isOfColor(hitBubble.color)) {
-        let row = this.board.pieces[curBubble.row];
-        let col = curBubble.col;
-        console.log(curBubble.row, col);
-        debugger;
-        row[col] = null;
-        curBubble.eliminated = true;
+        curBubble.delete();
       }
+      let curNeighbors = curBubble.neighbors;
+      // check for same color in all the neighbors
+      curNeighbors.forEach(neighbor => {
+        if (neighbor.isOfColor(hitBubble.color)) {
+          neighbor.delete();
+        }
+      });
     });
+  }
+
+  // eliminate this bubble from the game board
+  delete() {
+    let row = this.board.pieces[this.row];
+    let col = this.col;
+    row[col] = null;
+    this.eliminated = true;
   }
 
   // returns null
   fire() {
     // check for and handle bubble collisions
-    this.hitBubble();
+    this.bubbleHit();
+    // check for and handle wall collisions
     this.board.wallsHit();
     let newX = this.x + this.deltaX;
     let newY = this.y + this.deltaY;
@@ -183,13 +192,12 @@ export class Bubble {
   }
 
   update() {
-    if (this.eliminated) {
-      return;
+    if (!this.eliminated) {
+      if ((this.deltaX !== 0 || this.deltaY !== 0) && this.collided === false) {
+        this.fire();
+      }
+      this.render();
     }
-    if ((this.deltaX !== 0 || this.deltaY !== 0) && this.collided === false) {
-      this.fire();
-    }
-    this.render();
   }
 
   render() {
@@ -200,3 +208,14 @@ export class Bubble {
     this.ctx.closePath();
   }
 }
+
+// // returns null
+// fall() {
+//   this.deltaX = 0;
+//   this.deltaY = -1;
+//   // while (!this.hitWalls(0, this.canvas.width, 0, this.canvas.height)) {
+//   let newX = this.x + this.deltaX;
+//   let newY = this.y + this.deltaY;
+//   this.updateCoords(newX, newY);
+//   // }
+// }
