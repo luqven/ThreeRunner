@@ -146,29 +146,30 @@ export class Bubble {
   // checks if bubble of same color, drops all neighbors if true
   handleHit(bubble) {
     if (bubble.isOfColor(this.color)) {
-      this.dropSameOfColor(bubble);
+      // drop the hit bubble
+      bubble.collided = true;
+      bubble.eliminated = true;
+      bubble.delete();
+      bubble.dropNeighbors();
       this.delete();
     } else {
       this.collided = true;
     }
   }
 
-  dropSameOfColor(hitBubble) {
-    // drop the hit bubble
-    hitBubble.collided = true;
-    hitBubble.eliminated = true;
-    // check if any neighbor is of the same color
-    hitBubble.neighbors.forEach(curBubble => {
-      if (curBubble.isOfColor(hitBubble.color)) {
-        curBubble.delete();
+  // drop neighboring bubbles of same color
+  dropNeighbors() {
+    this.neighbors.forEach(neighbor => {
+      if (neighbor.isOfColor(this.color)) {
+        neighbor.delete();
       }
-      let curNeighbors = curBubble.neighbors;
-      // check for same color in all the neighbors
-      curNeighbors.forEach(neighbor => {
-        if (neighbor.isOfColor(hitBubble.color)) {
-          neighbor.delete();
-        }
-      });
+      // let curNeighbors = neighbor.neighbors;
+      // // check for same color in all the neighbors
+      // curNeighbors.forEach(neighbor => {
+      //   if (neighbor.isOfColor(this.color)) {
+      //     neighbor.delete();
+      //   }
+      // });
     });
   }
 
