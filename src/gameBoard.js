@@ -124,7 +124,6 @@ export class Board {
   }
 
   fire() {
-    console.log("fire");
     let location = { x: this.cannon.x, y: this.cannon.y };
     let target = { x: this.cannon.mouseX, y: this.cannon.mouseY };
     let speed = this.getDeltas(location, target);
@@ -132,7 +131,7 @@ export class Board {
     this.bullet.board = this;
     this.bullet.deltaX = speed.x;
     this.bullet.deltaY = speed.y;
-    this.bullet.fire();
+    this.bullet.move();
   }
 
   getDeltas(loc, target) {
