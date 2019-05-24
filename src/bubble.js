@@ -161,12 +161,45 @@ export class Bubble {
       this.delete();
     } else {
       this.collided = true;
+      // store bubble in board
+      this.storeHit(bubble);
     }
+  }
+
+  storeHit(bubble) {
+    let top = bubble.y - bubble.radius;
+    let bot = bubble.y + bubble.radius;
+    let left = bubble.x - bubble.radius;
+    let right = bubble.x + bubble.radius;
+    let newCol, newRow;
+    // get the row value
+    if (this.y < top) {
+      newRow = bubble.row - 1;
+    } else if (this.y > bot) {
+      newRow = bubble.row + 1;
+    } else {
+      newRow = bubble.row;
+    }
+    // get the col value
+    if (this.x < left) {
+      newCol = bubble.col - 1;
+    } else if (this.x > right) {
+      newCol = bubble.col + 1;
+    } else {
+      newCol = bubble.col;
+    }
+    if (!this.board.pieces[newRow]) {
+      this.board.pieces.push([]);
+    }
+    console.log(`store at ${newRow} ${newCol}, ${this.collided}`);
+    this.board.pieces[newRow][newCol] = this;
   }
 
   // drop neighboring bubbles of same color
   dropNeighbors() {
-    debugger;
+    if (!this.neighbors) {
+      return;
+    }
     this.neighbors.forEach((neighbor, idx) => {
       if (neighbor !== null && neighbor.isOfColor(this.color)) {
         this.neighbors[idx] = null;
