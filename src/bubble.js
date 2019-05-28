@@ -227,7 +227,7 @@ export class Bubble {
     // check for and handle bubble collisions
     this.bubbleHit();
     // check for and handle wall collisions
-    this.board.wallsHit();
+    this.board.wallsHit(this);
     let newX = this.x + this.deltaX;
     let newY = this.y + this.deltaY;
     this.setCoordinates(newX, newY);

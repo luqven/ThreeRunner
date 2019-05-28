@@ -96,29 +96,29 @@ export class Board {
 
   // helper hat saves array of walls hit
   // returns bool
-  wallsHit() {
-    let midPoint = { x: this.bullet.x, y: this.bullet.y };
-    let radius = this.bullet.radius;
-    this.bullet.wallsHit = [];
+  wallsHit(bullet) {
+    let midPoint = { x: bullet.x, y: bullet.y };
+    let radius = bullet.radius;
+    bullet.wallsHit = [];
     // if midP +/- radius <=> wall -> wall hit
     if (midPoint.x - radius <= this.walls.left.x) {
-      this.bullet.wallsHit.push(2);
-      this.bullet.reverseDeltaX();
+      bullet.wallsHit.push(2);
+      bullet.reverseDeltaX();
     } else if (midPoint.x + radius >= this.walls.right.x) {
-      this.bullet.wallsHit.push(2);
-      this.bullet.reverseDeltaX();
+      bullet.wallsHit.push(2);
+      bullet.reverseDeltaX();
     }
     if (midPoint.y - radius >= this.walls.top.y) {
-      this.bullet.wallsHit.push(0);
-      this.bullet.reverseDeltaY();
+      bullet.wallsHit.push(0);
+      bullet.reverseDeltaY();
     } else if (midPoint.y + radius <= this.walls.bot.y) {
-      this.bullet.wallsHit.push(0);
-      this.bullet.reverseDeltaY();
+      bullet.wallsHit.push(0);
+      bullet.reverseDeltaY();
     }
-    if (this.bullet.wallsHit.length < 1) {
+    if (bullet.wallsHit.length < 1) {
       return false;
     }
-    if (this.bullet.wallsHit.length > 1) {
+    if (bullet.wallsHit.length > 1) {
       return true;
     }
   }

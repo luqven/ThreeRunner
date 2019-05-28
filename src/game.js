@@ -68,11 +68,11 @@ export default class Game {
     if (this.canvas.pressedKey === " ") {
       this.board.fire();
       this.canvas.pressedKey = null;
-    }
-    if (this.board.bullet.collided || this.board.bullet.eliminated) {
       this.createAmmo();
       this.canvas.objects.push(this.bullet);
       this.board.bullet = this.bullet;
+    }
+    if (this.board.bullet.collided || this.board.bullet.eliminated) {
     }
     this.canvas.render();
   }
