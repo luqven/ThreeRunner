@@ -135,7 +135,7 @@ export class Bubble {
 
     pieces.forEach(row => {
       row.forEach(bubble => {
-        if (bubble) {
+        if (bubble && !hit) {
           let bubbleMidpoint = [bubble.x, bubble.y];
           let midpointDiff = Util.getDistanceBetween(
             bubbleMidpoint,
