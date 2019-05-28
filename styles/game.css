@@ -1,6 +1,26 @@
 body {
   align-content: center;
   /* background-color: black; */
+  margin-top: -50px;
+}
+
+button {
+  font-size: small;
+  font-weight: bold;
+  justify-content: center;
+  color: white;
+  background-color: #1a73e8;
+  text-transform: none;
+  width: 80px;
+  height: 40px;
+  border-radius: 4px;
+  margin: 5px;
+}
+
+button:hover {
+  box-shadow: 0px 12px 12px -14px #287ae6;
+  background-color: #1a73e8;
+  border: 1px solid #287ae6;
 }
 
 .pageContainer {
@@ -12,7 +32,7 @@ body {
 }
 
 #gameCanvas {
-  background-color: black;
+  background-color: transparent;
   margin: auto;
   align-content: center;
   /* cursor: none; */
@@ -22,4 +42,16 @@ body {
   justify-content: center;
   align-content: center;
   margin: auto;
+}
+
+.gameControls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.gameInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
