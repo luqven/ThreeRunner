@@ -57,7 +57,7 @@ export default class Game {
   createAmmo() {
     this.bullet = new Bullet({
       canvas: this.canvas,
-      color: "blue",
+      color: Util.getRandomColor(),
       board: this.board,
       x: this.canvas.width / 2,
       y: this.canvas.height - 80
