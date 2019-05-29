@@ -127,46 +127,19 @@ export class Bubble {
       bRight: { r: row + 1, c: col + 1 + eventOffset }
     };
   }
-  // check if bubble has hit another bubble
-  bubbleHit() {
-    let currentPos = [this.x, this.y];
-    let pieces = this.board.pieces;
-    let hit = false;
-
-    pieces.forEach(row => {
-      row.forEach(bubble => {
-        if (bubble && !hit) {
-          let bubbleMidpoint = [bubble.x, bubble.y];
-          let midpointDiff = Util.getDistanceBetween(
-            bubbleMidpoint,
-            currentPos
-          );
-          if (midpointDiff < this.radius * 2) {
-            hit = true;
-            this.handleHit(bubble);
-          }
-        }
-      });
-    });
-    return hit;
-  }
-  // checks if bubble of same color, drops all neighbors if true
-  handleHit(bubble) {
-    console.log("bubble hit");
-    if (bubble.isOfColor(this.color)) {
-      // drop the hit bubble
-      bubble.collided = true;
-      bubble.eliminated = true;
-      bubble.delete();
-      bubble.dropNeighbors();
-      this.delete();
-    } else {
-      this.collided = true;
-      // store bubble in board
-      this.storeHit(bubble);
+  // drop neighboring bubbles of same color
+  dropNeighbors() {
+    if (!this.neighbors) {
+      return;
     }
+    this.neighbors.forEach((neighbor, idx) => {
+      if (neighbor !== null && neighbor.isOfColor(this.color)) {
+        this.neighbors[idx] = null;
+        neighbor.delete();
+        neighbor.dropNeighbors();
+      }
+    });
   }
-
   storeHit(bubble) {
     let top = bubble.y - bubble.radius;
     let bot = bubble.y + bubble.radius;
@@ -197,30 +170,58 @@ export class Bubble {
     this.col = newCol;
     this.board.pieces[newRow][newCol] = this;
   }
-
-  // drop neighboring bubbles of same color
-  dropNeighbors() {
-    if (!this.neighbors) {
-      return;
-    }
-    this.neighbors.forEach((neighbor, idx) => {
-      if (neighbor !== null && neighbor.isOfColor(this.color)) {
-        this.neighbors[idx] = null;
-        neighbor.delete();
-        neighbor.dropNeighbors();
-      }
-    });
-  }
   // eliminate this bubble from the game board
   delete() {
     this.eliminated = true;
     this.deltaX = 0;
     this.deltaY = 0;
-    if (this.row && this.col) {
+    console.log(this.row, this.col);
+    if (this.row !== undefined && this.col !== undefined) {
       let row = this.board.pieces[this.row];
       let col = this.col;
       row[col] = null;
+      console.log(`delete at row ${this.row} col ${col}`);
     }
+  }
+  // checks if bubble of same color, drops all neighbors if true
+  handleHit(bubble) {
+    console.log("bubble hit");
+    if (bubble.isOfColor(this.color)) {
+      console.log("same of color");
+      // drop the hit bubble
+      bubble.collided = true;
+      bubble.eliminated = true;
+      bubble.dropNeighbors();
+      bubble.delete();
+      this.delete();
+    } else {
+      this.collided = true;
+      // store bubble in board
+      this.storeHit(bubble);
+    }
+  }
+  // check if bubble has hit another bubble
+  bubbleHit() {
+    let currentPos = [this.x, this.y];
+    let pieces = this.board.pieces;
+    let hit = false;
+
+    pieces.forEach(row => {
+      row.forEach(bubble => {
+        if (bubble && !hit) {
+          let bubbleMidpoint = [bubble.x, bubble.y];
+          let midpointDiff = Util.getDistanceBetween(
+            bubbleMidpoint,
+            currentPos
+          );
+          if (midpointDiff < this.radius * 2) {
+            hit = true;
+            this.handleHit(bubble);
+          }
+        }
+      });
+    });
+    return hit;
   }
   // shoot the bubble
   move() {
