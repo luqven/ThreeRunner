@@ -23,6 +23,10 @@ export class Cannon {
   // returns null
   update() {
     if (this.canvas.isDragging === true) {
+      console.log(
+        "update cannon to: " +
+          `${[this.canvas.mousePos.x, this.canvas.mousePos.y]}`
+      );
       // let dragDir = this.canvas.mousePos.dragDir;
       // this.newX = this.newX + dragDir;
       // this.newY = this.newY + dragDir;

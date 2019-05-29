@@ -61,6 +61,39 @@ export class Canvas {
     });
   }
 
+  watchTouchMove() {
+    this.container.addEventListener("touchstart", e => {
+      this.mousePos.releaseX = parseInt(e.touches[0].clientX);
+      this.mousePos.releaseY = parseInt(e.touches[0].clientY);
+      this.isDragging = true;
+    });
+    this.container.addEventListener("touchmove", e => {
+      let touches = e.changedTouches;
+      let firstTouch = touches[0];
+      this.mousePos.x = parseInt(firstTouch.clientX);
+      this.mousePos.y = parseInt(firstTouch.clientY);
+      this.mousePos.clickX = parseInt(firstTouch.clientX);
+      this.mousePos.clickY = parseInt(firstTouch.clientY);
+      let xDiff = this.mousePos.clickX - this.mousePos.releaseX;
+
+      if (xDiff < 0) {
+        this.mousePos.dragDir = -1;
+      } else if (xDiff > 0) {
+        this.mousePos.dragDir = 1;
+      } else {
+        this.mousePos.dragDir = 0;
+      }
+
+      // reverse xDiff to match mouse drag direction
+      this.mousePos.dragDelta = Math.abs(xDiff);
+      console.log(this.mousePos.dragDir, this.mousePos.dragDelta);
+      // console.log(firstTouch.clientX, firstTouch.clientY);
+    });
+    this.container.addEventListener("touchend", e => {
+      this.isDragging = false;
+    });
+  }
+
   watchMouseDown() {
     this.container.addEventListener("mousedown", e => {
       this.mousePos.clickX = e.offsetX;

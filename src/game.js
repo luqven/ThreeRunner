@@ -36,6 +36,7 @@ export default class Game {
     this.canvas.watchMouseUp();
     this.canvas.watchMouseMove();
     this.canvas.watchDoubleClick();
+    this.canvas.watchTouchMove();
   }
 
   watchKeyPress() {
