@@ -59,11 +59,22 @@ button:hover {
 .controlsModal {
   display: flex;
   flex-direction: column;
+  position: absolute;
   justify-content: space-around;
   text-align: center;
-  background-color: rgba(143, 194, 249, 0.872);
+  align-self: center;
+  margin-top: -100px;
   padding: 20px;
+  font-weight: bold;
+  text-transform: none;
+  border-radius: 4px;
   color: aliceblue;
+  box-shadow: 0px 12px 12px -14px #287ae6;
+  background-color: #1a73e8;
+  border: 1px solid #287ae6;
+}
+
+.controlsModal:hover {
 }
 
 .controlsModal ul {
