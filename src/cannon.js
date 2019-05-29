@@ -40,7 +40,6 @@ export class Cannon {
     let newY = y + 1.5 * this.height * mult2;
     this.mouseX = newX;
     this.mouseY = newY;
-    // debugger;
     //render the line from player to mouse
     this.ctx.lineWidth = 2;
     this.ctx.strokeStyle = Util.colors["red"];

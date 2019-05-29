@@ -165,7 +165,7 @@ export class Bubble {
     if (!this.board.pieces[newRow]) {
       this.board.pieces.push([]);
     }
-    console.log(`store at ${newRow} ${newCol}, ${this.collided}`);
+    // console.log(`store at ${newRow} ${newCol}, ${this.collided}`);
     this.row = newRow;
     this.col = newCol;
     if (newRow < 0) {
@@ -181,19 +181,19 @@ export class Bubble {
     this.eliminated = true;
     this.deltaX = 0;
     this.deltaY = 0;
-    console.log(this.row, this.col);
+    // console.log(this.row, this.col);
     if (this.row !== undefined && this.col !== undefined) {
       let row = this.board.pieces[this.row];
       let col = this.col;
       row[col] = null;
-      console.log(`delete at row ${this.row} col ${col}`);
+      // console.log(`delete at row ${this.row} col ${col}`);
     }
   }
   // checks if bubble of same color, drops all neighbors if true
   handleHit(bubble) {
-    console.log("bubble hit");
+    // console.log("bubble hit");
     if (bubble.isOfColor(this.color)) {
-      console.log("same of color");
+      // console.log("same of color");
       // drop the hit bubble
       bubble.collided = true;
       bubble.eliminated = true;
