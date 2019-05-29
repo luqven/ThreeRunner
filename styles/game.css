@@ -55,3 +55,17 @@ button:hover {
   flex-direction: row;
   justify-content: space-evenly;
 }
+
+.controlsModal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  text-align: center;
+  background-color: rgba(143, 194, 249, 0.872);
+  padding: 20px;
+  color: aliceblue;
+}
+
+.controlsModal ul {
+  list-style: none;
+}

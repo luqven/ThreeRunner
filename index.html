@@ -12,12 +12,6 @@
     <meta name="description" content="" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="stylesheet" href="./styles/index.css" />
-    <style>
-      canvas {
-        width: 100%;
-        height: 100%;
-      }
-    </style>
   </head>
   <body>
     <!--[if lt IE 7]>
@@ -30,15 +24,22 @@
     <div class="pageContainer">
       <div class="gameControls">
         <button id="controls-btn">Controls</button>
-        <button id="volume-btn">Volume</button>
+        <button id="volume-btn">Mute</button>
       </div>
       <div id="gameContainer">
         <canvas width="896" height="560" id="gameCanvas"></canvas>
       </div>
+      <div class="controlsModal transparent">
+        <ul>
+          <li>Drag the mouse to move the cannon</li>
+          <li>Double tap or space bar to shoot</li>
+          <li>R to restart</li>
+        </ul>
+      </div>
       <div class="gameInfo">
-        <button>GitHub</button>
-        <button>LinkedIn</button>
-        <button>About</button>
+        <a href="#"><button>GitHub</button></a>
+        <a href="#"><button>LinkedIn</button></a>
+        <a href="#"><button>About</button></a>
       </div>
     </div>
     <script src="./dist/main.js"></script>
