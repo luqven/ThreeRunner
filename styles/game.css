@@ -17,6 +17,14 @@ button {
   margin: 5px;
 }
 
+h1 {
+  font-size: xx-large;
+  font-weight: bold;
+  text-align: center;
+  margin: 20px;
+  margin-top: 0px;
+}
+
 .start-btn {
   background-color: red;
   position: absolute;
