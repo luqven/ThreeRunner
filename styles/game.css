@@ -17,10 +17,10 @@ button {
   margin: 5px;
 }
 
-button:hover {
-  box-shadow: 0px 12px 12px -14px #287ae6;
-  background-color: #1a73e8;
-  border: 1px solid #287ae6;
+.start-btn {
+  background-color: red;
+  position: absolute;
+  align-self: center;
 }
 
 .pageContainer {
@@ -57,8 +57,6 @@ button:hover {
 }
 
 .controlsModal {
-  display: flex;
-  flex-direction: column;
   position: absolute;
   justify-content: space-around;
   text-align: center;
@@ -72,9 +70,8 @@ button:hover {
   box-shadow: 0px 12px 12px -14px #287ae6;
   background-color: #1a73e8;
   border: 1px solid #287ae6;
-}
-
-.controlsModal:hover {
+  opacity: 1;
+  transition: opacity ease-in-out 0.4s;
 }
 
 .controlsModal ul {

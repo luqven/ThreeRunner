@@ -96,10 +96,39 @@ button {
   background: none;
   color: inherit;
   border: none;
-  padding: 0;
   font: inherit;
   cursor: pointer;
   outline: inherit;
+  z-index: 1;
+  position: relative;
+  font-size: inherit;
+  font-family: inherit;
+  overflow: hidden;
+  transition: color 0.4s ease-in-out;
+}
+
+button::before {
+  content: '';
+  z-index: -1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background-color: rgb(0, 181, 6);;
+  transform-origin: center;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.45s ease-in-out;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+button:hover::before {
+  transform: translate(-50%, -50%) scale(15);
+}
 }
 
 a:-webkit-any-link {
@@ -129,5 +158,5 @@ textarea:focus {
 }
 
 .transparent {
-  opacity: 0.01;
+  opacity: 0.01 !important;
 }

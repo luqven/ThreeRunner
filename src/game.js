@@ -9,8 +9,12 @@ import Bullet from "./ammunition";
 export default class Game {
   constructor(props) {
     this.canvas = props.canvas;
+    this.start = false;
+    this.over = false;
   }
   init() {
+    // display the welcome message
+    this.welcomeMessage();
     // save the mouse position on the canvas
     this.watchMouseEvents();
     // save the current key pressed
@@ -30,6 +34,28 @@ export default class Game {
     this.canvas.objects.push(this.bullet);
   }
 
+  welcomeMessage() {
+    let startBtn = document.querySelector(".start-btn");
+    startBtn.addEventListener("click", e => {
+      startBtn.classList.add("hidden");
+      this.startGame();
+    });
+  }
+
+  startGame() {
+    let controls = document.querySelector(".controlsModal");
+    controls.classList.toggle("transparent");
+    this.start = true;
+  }
+
+  restartGame() {
+    let button = document.querySelector(".start-btn");
+    button.innerHTML = "RESTART";
+    button.classList.remove("hidden");
+    this.start = false;
+    this.over = false;
+    this.init();
+  }
   // save the mouse position on the canvas
   watchMouseEvents() {
     this.canvas.watchMouseDown();
@@ -66,16 +92,32 @@ export default class Game {
     });
   }
 
+  gameOver() {
+    let over = true;
+    this.board.pieces.forEach(row => {
+      row.forEach(bubble => {
+        debugger;
+        if (bubble !== null && bubble.eliminated === false) {
+          over = false;
+          return;
+        }
+      });
+    });
+    return over;
+  }
+
   render() {
-    if (this.canvas.pressedKey === " ") {
-      this.board.fire();
-      this.canvas.pressedKey = null;
-      this.createAmmo();
-      this.canvas.objects.push(this.bullet);
-      this.board.bullet = this.bullet;
+    if (this.gameOver() === false) {
+      if (this.canvas.pressedKey === " ") {
+        this.board.fire();
+        this.canvas.pressedKey = null;
+        this.createAmmo();
+        this.canvas.objects.push(this.bullet);
+        this.board.bullet = this.bullet;
+      }
+      this.canvas.render();
+    } else {
+      this.restartGame();
     }
-    if (this.board.bullet.collided || this.board.bullet.eliminated) {
-    }
-    this.canvas.render();
   }
 }

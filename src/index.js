@@ -19,11 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // render the game
   const render = () => {
     window.requestAnimationFrame(render);
-    game.render();
+    if (game.start && !game.over) {
+      game.render();
+    }
     if (canvas.pressedKey === "r") {
       canvas.pressedKey = null;
       game = new Game({ canvas });
       canvas.objects = [];
+      game.start = true;
       game.init();
     }
   };

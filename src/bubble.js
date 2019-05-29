@@ -168,6 +168,12 @@ export class Bubble {
     console.log(`store at ${newRow} ${newCol}, ${this.collided}`);
     this.row = newRow;
     this.col = newCol;
+    if (newRow < 0) {
+      newRow = Math.abs(newRow);
+    }
+    if (newCol < 0) {
+      newCol = Math.abs(newCol);
+    }
     this.board.pieces[newRow][newCol] = this;
   }
   // eliminate this bubble from the game board
