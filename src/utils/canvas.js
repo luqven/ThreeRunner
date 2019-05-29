@@ -90,6 +90,12 @@ export class Canvas {
     });
   }
 
+  watchDoubleClick() {
+    this.container.addEventListener("dblclick", e => {
+      this.pressedKey = " ";
+    });
+  }
+
   watchKeyPress() {
     document.addEventListener("keydown", e => {
       this.pressedKey = e.key;
