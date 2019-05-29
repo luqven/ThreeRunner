@@ -28,7 +28,9 @@ export class Canvas {
       releaseX: null,
       releaseY: null,
       dragDir: 0,
-      dragDelta: 0
+      dragDelta: 0,
+      lastTap: null,
+      nextTap: null
     };
     this.objects = props.objects; // objects that belong to this canvas
     this.canvasDidMount = false; // bool turns true on first render
@@ -61,13 +63,39 @@ export class Canvas {
     });
   }
 
+  isDoubleTap(e) {
+    let date = new Date();
+    if (this.mousePos.lastTap === null) {
+      this.mousePos.lastTap = date.getTime();
+    } else {
+      if (this.mousePos.nextTap === null) {
+        this.mousePos.nextTap = date.getTime();
+      }
+      let start = this.mousePos.lastTap;
+      let end = this.mousePos.nextTap;
+      let tapLength = Math.abs(start - end);
+      console.log(tapLength);
+
+      if (tapLength > 0 && tapLength < 500) {
+        e.preventDefault();
+        this.pressedKey = " ";
+      }
+      this.mousePos.lastTap = null;
+      this.mousePos.nextTap = null;
+    }
+  }
+
   watchTouchMove() {
     this.container.addEventListener("touchstart", e => {
+      e.preventDefault();
       this.mousePos.releaseX = parseInt(e.touches[0].clientX);
       this.mousePos.releaseY = parseInt(e.touches[0].clientY);
       this.isDragging = true;
+      this.isDoubleTap(e);
     });
+
     this.container.addEventListener("touchmove", e => {
+      e.preventDefault();
       let touches = e.changedTouches;
       let firstTouch = touches[0];
       this.mousePos.x = parseInt(firstTouch.clientX);
@@ -87,7 +115,9 @@ export class Canvas {
       // reverse xDiff to match mouse drag direction
       this.mousePos.dragDelta = Math.abs(xDiff);
     });
+
     this.container.addEventListener("touchend", e => {
+      e.preventDefault();
       this.isDragging = false;
     });
   }
