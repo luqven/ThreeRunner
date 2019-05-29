@@ -86,8 +86,6 @@ export class Canvas {
 
       // reverse xDiff to match mouse drag direction
       this.mousePos.dragDelta = Math.abs(xDiff);
-      console.log(this.mousePos.dragDir, this.mousePos.dragDelta);
-      // console.log(firstTouch.clientX, firstTouch.clientY);
     });
     this.container.addEventListener("touchend", e => {
       this.isDragging = false;
