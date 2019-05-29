@@ -22,10 +22,29 @@ export class Board {
   init() {
     this.createBoard();
     this.populateBoard();
+    this.buttonHelpers();
   }
 
   update() {
     this.render();
+  }
+
+  buttonHelpers() {
+    // style the game's buttons
+    let controlsBtn = document.querySelector("#controls-btn");
+    controlsBtn.addEventListener("click", e => {
+      let controls = document.querySelector(".controlsModal");
+      controls.classList.toggle("transparent");
+    });
+    let volumeBtn = document.querySelector("#volume-btn");
+    volumeBtn.addEventListener("click", e => {
+      let innerText = volumeBtn.innerHTML;
+      if (innerText === "Mute") {
+        volumeBtn.innerHTML = "Unmute";
+      } else {
+        volumeBtn.innerHTML = "Mute";
+      }
+    });
   }
 
   createBoard() {
