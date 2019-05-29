@@ -130,9 +130,10 @@ export class Board {
     if (midPoint.y - radius >= this.walls.top.y) {
       bullet.wallsHit.push(0);
       bullet.reverseDeltaY();
-    } else if (midPoint.y + radius <= this.walls.bot.y) {
+    } else if (midPoint.y + radius <= this.walls.bot.y + 2 * radius) {
       bullet.wallsHit.push(0);
-      bullet.reverseDeltaY();
+      bullet.deltaY = 0;
+      bullet.deltaX = 0;
     }
     if (bullet.wallsHit.length < 1) {
       return false;

@@ -229,6 +229,12 @@ export class Bubble {
     this.bubbleHit();
     // check for and handle wall collisions
     this.board.wallsHit(this);
+    if (this.wallsHit.pop() === 0) {
+      this.board.pieces[0].push(this);
+      this.row = 0;
+      this.col = this.board.pieces[0].length;
+      this.collided = true;
+    }
     let newX = this.x + this.deltaX;
     let newY = this.y + this.deltaY;
     this.setCoordinates(newX, newY);
