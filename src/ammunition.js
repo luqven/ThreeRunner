@@ -12,11 +12,7 @@ export default class Ammunition extends Bubble {
 
   playFx() {
     let audio = this.soundFx;
-    if (audio.paused) {
-      audio.play();
-    } else {
-      audio.pause();
-      audio.currentTime = 0;
-    }
+    audio.currentTime = 0;
+    audio.play();
   }
 }
