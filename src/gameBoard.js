@@ -37,12 +37,15 @@ export class Board {
       controls.classList.toggle("transparent");
     });
     let volumeBtn = document.querySelector("#volume-btn");
+    let music = document.querySelector(".gameMusic");
     volumeBtn.addEventListener("click", e => {
       let innerText = volumeBtn.innerHTML;
-      if (innerText === "Mute") {
-        volumeBtn.innerHTML = "Unmute";
-      } else {
+      if (innerText === "Unmute") {
         volumeBtn.innerHTML = "Mute";
+        music.play();
+      } else {
+        volumeBtn.innerHTML = "Unmute";
+        music.pause();
       }
     });
   }
