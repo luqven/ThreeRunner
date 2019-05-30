@@ -17,6 +17,7 @@ export class Board {
     this.bullet = props.bullet;
     this.canvas = props.canvas;
     this.walls = this.canvas.walls;
+    this.muted = true;
   }
 
   init() {
@@ -43,9 +44,11 @@ export class Board {
       if (innerText === "Unmute") {
         volumeBtn.innerHTML = "Mute";
         music.play();
+        this.muted = false;
       } else {
         volumeBtn.innerHTML = "Unmute";
         music.pause();
+        this.muted = true;
       }
     });
   }
@@ -154,6 +157,9 @@ export class Board {
     this.bullet.board = this;
     this.bullet.deltaX = speed.x;
     this.bullet.deltaY = speed.y;
+    if (!this.muted) {
+      this.bullet.playFx();
+    }
     this.bullet.move();
   }
 

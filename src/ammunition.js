@@ -7,5 +7,16 @@ export default class Ammunition extends Bubble {
   constructor(props) {
     super(props);
     this.type = "ammo";
+    this.soundFx = document.querySelector("#shoot-fx");
+  }
+
+  playFx() {
+    let audio = this.soundFx;
+    if (audio.paused) {
+      audio.play();
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+    }
   }
 }
