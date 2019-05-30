@@ -127,17 +127,17 @@ export class Board {
     bullet.wallsHit = [];
     // if midP +/- radius <=> wall -> wall hit
     if (midPoint.x - radius <= this.walls.left.x) {
-      bullet.wallsHit.push(2);
+      bullet.wallsHit.push(1);
       bullet.reverseDeltaX();
     } else if (midPoint.x + radius >= this.walls.right.x) {
       bullet.wallsHit.push(2);
       bullet.reverseDeltaX();
     }
-    if (midPoint.y - radius >= this.walls.top.y) {
+    if (midPoint.y - radius >= this.walls.top.y + 50) {
       bullet.wallsHit.push(0);
       bullet.reverseDeltaY();
     } else if (midPoint.y + radius <= this.walls.bot.y + 2 * radius) {
-      bullet.wallsHit.push(0);
+      bullet.wallsHit.push(3);
       bullet.deltaY = 0;
       bullet.deltaX = 0;
     }

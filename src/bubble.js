@@ -28,7 +28,8 @@ export class Bubble {
     this.deltaX = props.deltaX ? props.deltaX : 0;
     this.deltaY = props.deltaY ? props.deltaY : 0;
     this.collided = false; // if bubble has hit another bubble
-    this.eliminated = false; // if bubble has been popped
+    this.falling = false; // the bubble was hit an is falling
+    this.eliminated = false; // if bubble has finished falling
     this.neighbors = null; // bubbles at [u, d, l, r, uR, uL, dR, dL]
   }
   reverseDeltaX() {
@@ -178,25 +179,23 @@ export class Bubble {
   }
   // eliminate this bubble from the game board
   delete() {
-    this.eliminated = true;
     this.deltaX = 0;
-    this.deltaY = 0;
-    // console.log(this.row, this.col);
+    this.deltaY = +5;
+    // if bubble currently on the board, remove it
     if (this.row !== undefined && this.col !== undefined) {
       let row = this.board.pieces[this.row];
       let col = this.col;
       row[col] = null;
-      // console.log(`delete at row ${this.row} col ${col}`);
     }
+    this.falling = true;
+    this.canvas.objects.push(this);
   }
   // checks if bubble of same color, drops all neighbors if true
   handleHit(bubble) {
-    // console.log("bubble hit");
     if (bubble.isOfColor(this.color)) {
-      // console.log("same of color");
       // drop the hit bubble
-      bubble.collided = true;
-      bubble.eliminated = true;
+      // bubble.collided = true;
+      // bubble.eliminated = true;
       bubble.dropNeighbors();
       bubble.delete();
       this.delete();
@@ -208,6 +207,10 @@ export class Bubble {
   }
   // check if bubble has hit another bubble
   bubbleHit() {
+    // ignore hits when being eliminated
+    if (this.falling === true) {
+      return false;
+    }
     let currentPos = [this.x, this.y];
     let pieces = this.board.pieces;
     let hit = false;
@@ -235,10 +238,8 @@ export class Bubble {
     this.bubbleHit();
     // check for and handle wall collisions
     this.board.wallsHit(this);
+    // if hit top wall, or bottom of the canvas
     if (this.wallsHit.pop() === 0) {
-      this.board.pieces[0].push(this);
-      this.row = 0;
-      this.col = this.board.pieces[0].length;
       this.collided = true;
     }
     let newX = this.x + this.deltaX;
