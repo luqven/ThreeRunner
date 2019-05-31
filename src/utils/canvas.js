@@ -17,7 +17,7 @@ export class Canvas {
     this.walls = {
       left: { x: 10, y: 10 },
       right: { x: this.width - 10, y: 10 },
-      bot: { x: 10, y: 10 },
+      bot: { x: 10, y: 93 },
       top: { x: 10, y: this.height - 10 }
     };
     this.mousePos = {

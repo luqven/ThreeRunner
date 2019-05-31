@@ -98,8 +98,8 @@ export class Board {
   }
 
   getBoardPosAt(loc) {
-    let row = Math.floor(loc.x / 2 / this.pieceWidth - this.tOffset);
-    let col = Math.floor(
+    let col = Math.floor(loc.x / 2 / this.pieceWidth - this.tOffset);
+    let row = Math.ceil(
       loc.y / 2 / (this.pieceHeight - this.rOffset) - this.lOffset
     );
     let gridPos = { r: row, c: col };
@@ -134,10 +134,12 @@ export class Board {
       bullet.reverseDeltaX();
     }
     if (midPoint.y - radius >= this.walls.top.y + 50) {
-      bullet.wallsHit.push(0);
-      bullet.reverseDeltaY();
-    } else if (midPoint.y + radius <= this.walls.bot.y + 2 * radius) {
       bullet.wallsHit.push(3);
+      bullet.reverseDeltaY();
+      bullet.deltaY = 0;
+      bullet.deltaX = 0;
+    } else if (midPoint.y + radius <= this.walls.bot.y) {
+      bullet.wallsHit.push(0);
       bullet.deltaY = 0;
       bullet.deltaX = 0;
     }
