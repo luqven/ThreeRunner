@@ -31,6 +31,7 @@ export class Bubble {
     this.falling = false; // the bubble was hit an is falling
     this.eliminated = false; // if bubble has finished falling
     this.neighbors = null; // bubbles at [u, d, l, r, uR, uL, dR, dL]
+    this.cluster = [];
   }
   reverseDeltaX() {
     this.deltaX = this.deltaX * -1;
@@ -129,21 +130,67 @@ export class Bubble {
     };
   }
   // drop neighboring bubbles of same color
-  dropNeighbors() {
+  //  dropNeighbors() {
+  //    if (!this.neighbors) {
+  //      return;
+  //    }
+  //    this.neighbors.forEach((neighbor, idx) => {
+  //      if (neighbor !== null && neighbor.isOfColor(this.color)) {
+  //        this.neighbors[idx] = null;
+  //        neighbor.delete();
+  //        neighbor.dropNeighbors();
+  //      }
+  //    });
+  //  }
+  findCluster(cluster = []) {
     if (!this.neighbors) {
-      return;
+      this.getNeighbors();
     }
     this.neighbors.forEach((neighbor, idx) => {
       if (neighbor !== null && neighbor.isOfColor(this.color)) {
         this.neighbors[idx] = null;
-        neighbor.delete();
-        neighbor.dropNeighbors();
+        if (!cluster.includes(neighbor)) {
+          cluster.push(neighbor);
+        }
+        if (!neighbor.cluster.includes(this)) {
+          neighbor.cluster.push(this);
+        }
+        neighbor.findCluster(cluster);
       }
+    });
+    return cluster;
+  }
+
+  clusterOfMinSize(cluster) {
+    debugger;
+    let min = 3;
+    let result = false;
+    while (cluster.length > 0) {
+      min -= cluster.length;
+      if (min <= 0) {
+        result = true;
+        break;
+      }
+      cluster = cluster[0];
+      if (!Array.isArray(cluster)) {
+        cluster = [cluster];
+      }
+    }
+    debugger;
+    return result;
+  }
+
+  dropCluster(cluster) {
+    cluster.forEach(bubble => {
+      bubble.delete();
     });
   }
   storeHit() {
     this.collided = true;
-    let newLoc = this.board.getBoardPosAt({ x: this.x, y: this.y });
+    let newLoc = this.board.getBoardPosAt({
+      x: this.x,
+      y: this.y
+    });
     let newRow = newLoc.r;
     let newCol = newLoc.c;
     if (!this.board.pieces[newRow]) {
@@ -174,9 +221,14 @@ export class Bubble {
       // drop the hit bubble
       // bubble.collided = true;
       // bubble.eliminated = true;
-      bubble.dropNeighbors();
-      bubble.delete();
-      this.delete();
+      this.cluster = bubble.findCluster();
+      if (this.clusterOfMinSize(this.cluster)) {
+        this.dropCluster(this.cluster);
+        bubble.delete();
+        this.delete();
+      } else {
+        this.storeHit();
+      }
     } else {
       // store bubble in board
       this.storeHit();
