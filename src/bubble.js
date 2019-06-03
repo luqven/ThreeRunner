@@ -142,48 +142,16 @@ export class Bubble {
     });
   }
   storeHit() {
-    // let top = bubble.y - bubble.radius;
-    // let bot = bubble.y + bubble.radius;
-    // let left = bubble.x - bubble.radius;
-    // let right = bubble.x + bubble.radius;
-    // let newCol, newRow;
-    // // get the row value
-    // if (this.y < top) {
-    //   newRow = bubble.row - 1;
-    // } else if (this.y > bot) {
-    //   newRow = bubble.row + 1;
-    // } else {
-    //   newRow = bubble.row;
-    // }
-    // // get the col value
-    // if (this.x < left) {
-    //   newCol = bubble.col - 1;
-    // } else if (this.x > right) {
-    //   newCol = bubble.col + 1;
-    // } else {
-    //   newCol = bubble.col;
-    // }
+    this.collided = true;
     let newLoc = this.board.getBoardPosAt({ x: this.x, y: this.y });
     let newRow = newLoc.r;
     let newCol = newLoc.c;
-
     if (!this.board.pieces[newRow]) {
       this.board.pieces.push([]);
     }
-    // if (newRow < 0) {
-    //   newRow = Math.abs(newRow);
-    // }
-    // if (newCol < 0) {
-    //   newCol = Math.abs(newCol);
-    // }
     this.row = newRow;
     this.col = newCol;
     console.log(`store at [${newRow}, ${newCol}], collided? ${this.collided}`);
-    console.log(
-      `board pos: ${Object.values(
-        this.board.getBoardPosAt({ x: this.x, y: this.y })
-      )}`
-    );
     this.board.pieces[newRow][newCol] = this;
   }
   // eliminate this bubble from the game board
@@ -210,7 +178,6 @@ export class Bubble {
       bubble.delete();
       this.delete();
     } else {
-      this.collided = true;
       // store bubble in board
       this.storeHit();
     }
@@ -221,6 +188,16 @@ export class Bubble {
     if (this.falling === true) {
       return false;
     }
+
+    // if hit top wall
+    if (this.wallsHit.pop() === 0 && !this.falling) {
+      this.storeHit();
+      return;
+      // if hit bot wall
+    } else if (this.wallsHit.pop() === 3) {
+      this.eliminated = true;
+    }
+
     let currentPos = [this.x, this.y];
     let pieces = this.board.pieces;
     let hit = false;
@@ -248,14 +225,6 @@ export class Bubble {
     this.board.wallsHit(this);
     // check for and handle bubble collisions
     this.bubbleHit();
-    // if hit top wall
-    if (this.wallsHit.pop() === 0 && !this.falling) {
-      this.board.pieces[0].push(this);
-      // debugger;
-      this.collided = true;
-    } else if (this.wallsHit.pop() === 3) {
-      this.eliminated = true;
-    }
     let newX = this.x + this.deltaX;
     let newY = this.y + this.deltaY;
     this.setCoordinates(newX, newY);

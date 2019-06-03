@@ -17,40 +17,15 @@ export class Board {
     this.bullet = props.bullet;
     this.canvas = props.canvas;
     this.walls = this.canvas.walls;
-    this.muted = true;
   }
 
   init() {
     this.createBoard();
     this.populateBoard();
-    this.buttonHelpers();
   }
 
   update() {
     this.render();
-  }
-
-  buttonHelpers() {
-    // style the game's buttons
-    let controlsBtn = document.querySelector("#controls-btn");
-    controlsBtn.addEventListener("click", e => {
-      let controls = document.querySelector(".controlsModal");
-      controls.classList.toggle("transparent");
-    });
-    let volumeBtn = document.querySelector("#volume-btn");
-    let music = document.querySelector(".gameMusic");
-    volumeBtn.addEventListener("click", e => {
-      let innerText = volumeBtn.innerHTML;
-      if (innerText === "Unmute") {
-        volumeBtn.innerHTML = "Mute";
-        music.play();
-        this.muted = false;
-      } else {
-        volumeBtn.innerHTML = "Unmute";
-        music.pause();
-        this.muted = true;
-      }
-    });
   }
 
   createBoard() {
@@ -152,6 +127,7 @@ export class Board {
   }
 
   fire() {
+    let music = document.querySelector(".gameMusic");
     let location = { x: this.cannon.x, y: this.cannon.y };
     let target = { x: this.cannon.mouseX, y: this.cannon.mouseY };
     let speed = this.getDeltas(location, target);
@@ -159,7 +135,7 @@ export class Board {
     this.bullet.board = this;
     this.bullet.deltaX = speed.x;
     this.bullet.deltaY = speed.y;
-    if (!this.muted) {
+    if (!music.paused) {
       this.bullet.playFx();
     }
     this.bullet.move();

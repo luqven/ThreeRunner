@@ -36,6 +36,7 @@ export class Canvas {
     this.canvasDidMount = false; // bool turns true on first render
     this.isDragging = false;
     this.pressedKey = null;
+    this.muted = true;
 
     this.render = this.render.bind(this);
     this.resize = this.resize.bind(this);

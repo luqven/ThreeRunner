@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // initialize the game
   let game = new Game({ canvas });
   game.init();
+  // add button controls
+  Util.addButtonEventListeners();
   // render the game
   const render = () => {
     window.requestAnimationFrame(render);

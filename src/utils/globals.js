@@ -69,5 +69,25 @@ export const Util = {
     let options = Object.keys(Util.colors);
     let selectedColor = options[Util.getRandom(0, 4)];
     return Util.colors[selectedColor];
+  },
+  addButtonEventListeners: function() {
+    // toggle controls transparency on click
+    let controlsBtn = document.querySelector("#controls-btn");
+    controlsBtn.addEventListener("click", e => {
+      let controls = document.querySelector(".controlsModal");
+      controls.classList.toggle("transparent");
+    });
+    // toggle mute on click
+    let volumeBtn = document.querySelector("#volume-btn");
+    let music = document.querySelector(".gameMusic");
+    volumeBtn.addEventListener("click", e => {
+      if (music.paused) {
+        volumeBtn.innerHTML = "Mute";
+        music.play();
+      } else {
+        volumeBtn.innerHTML = "Unmute";
+        music.pause();
+      }
+    });
   }
 };
