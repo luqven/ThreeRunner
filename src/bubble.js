@@ -93,11 +93,8 @@ export class Bubble {
     let row = this.row;
     let col = this.col;
     let neighbors = [];
-    // shift col on odd rows
-    // if (row % 2 != 0) {
-    //   col = col + 1;
-    // }
     let positions = this.getPosToCheck(row, col);
+
     Object.values(positions).forEach(pos => {
       if (this.board.pieces[pos.r] !== undefined) {
         let row = this.board.pieces[pos.r];
@@ -109,39 +106,28 @@ export class Bubble {
     });
     this.neighbors = neighbors;
   }
-  // get row, col values at [u, d, l, r, uR, uL, dR, dL]
+  // get row, col values at [l, r, uR, uL, dR, dL]
   getPosToCheck(row, col) {
-    let oddOffset = 0;
-    let eventOffset = 0;
     if (row % 2 !== 0) {
-      oddOffset = 1;
+      return {
+        left: { r: row, c: col - 1 },
+        right: { r: row, c: col + 1 },
+        uLeft: { r: row - 1, c: col },
+        uRight: { r: row - 1, c: col + 1 },
+        bLeft: { r: row + 1, c: col },
+        bRight: { r: row + 1, c: col + 1 }
+      };
     } else {
-      eventOffset = -1;
+      return {
+        left: { r: row, c: col - 1 },
+        right: { r: row, c: col + 1 },
+        uLeft: { r: row - 1, c: col - 1 },
+        uRight: { r: row - 1, c: col },
+        bLeft: { r: row + 1, c: col - 1 },
+        bRight: { r: row + 1, c: col }
+      };
     }
-    return {
-      up: { r: row - 1, c: col },
-      bot: { r: row + 1, c: col },
-      left: { r: row, c: col - 1 },
-      right: { r: row, c: col + 1 },
-      uLeft: { r: row - 1, c: col - 1 + oddOffset },
-      uRight: { r: row - 1, c: col + oddOffset + eventOffset },
-      bLeft: { r: row + 1, c: col - 1 + oddOffset },
-      bRight: { r: row + 1, c: col + 1 + eventOffset }
-    };
   }
-  // drop neighboring bubbles of same color
-  //  dropNeighbors() {
-  //    if (!this.neighbors) {
-  //      return;
-  //    }
-  //    this.neighbors.forEach((neighbor, idx) => {
-  //      if (neighbor !== null && neighbor.isOfColor(this.color)) {
-  //        this.neighbors[idx] = null;
-  //        neighbor.delete();
-  //        neighbor.dropNeighbors();
-  //      }
-  //    });
-  //  }
   findCluster(cluster = []) {
     if (!this.neighbors) {
       this.getNeighbors();
@@ -149,6 +135,7 @@ export class Bubble {
     this.neighbors.forEach((neighbor, idx) => {
       if (neighbor !== null && neighbor.isOfColor(this.color)) {
         this.neighbors[idx] = null;
+        console.log(`neighbor loc = ${[neighbor.row, neighbor.col]}`);
         if (!cluster.includes(neighbor)) {
           cluster.push(neighbor);
         }
@@ -160,9 +147,7 @@ export class Bubble {
     });
     return cluster;
   }
-
   clusterOfMinSize(cluster) {
-    debugger;
     let min = 3;
     let result = false;
     while (cluster.length > 0) {
@@ -176,10 +161,8 @@ export class Bubble {
         cluster = [cluster];
       }
     }
-    debugger;
     return result;
   }
-
   dropCluster(cluster) {
     cluster.forEach(bubble => {
       bubble.delete();
@@ -198,7 +181,7 @@ export class Bubble {
     }
     this.row = newRow;
     this.col = newCol;
-    console.log(`store at [${newRow}, ${newCol}], collided? ${this.collided}`);
+    // console.log(`store at [${newRow}, ${newCol}], collided? ${this.collided}`);
     this.board.pieces[newRow][newCol] = this;
   }
   // eliminate this bubble from the game board
