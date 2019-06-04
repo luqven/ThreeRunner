@@ -98,7 +98,7 @@ export class Bubble {
     return this.color === otherColor;
   }
 
-  // get row, col values at [l, r, uR, uL, dR, dL]
+  // makes {l, r, ul, ur, dl, dr} positions object, eg. {left: {r: row, c: col - 1}, ... }}
   getPosToCheck(row, col) {
     if (row % 2 !== 0) {
       return {
@@ -121,21 +121,24 @@ export class Bubble {
     }
   }
 
-  // saves array of neighboring bubbles
+  // saves object of neighboring bubbles, eg { [0, 1]: Bubble Object, [0, -1]: ... }
   getNeighbors() {
-    // find the row col at the given [x, y]
     let row = this.row;
     let col = this.col;
     let neighbors = {};
     let positions = this.getPosToCheck(row, col);
+    // find neighbor at each position
     Object.values(positions).forEach(pos => {
+      // if the [row, col] exists
       if (this.board.pieces[pos.r] !== undefined) {
         let row = this.board.pieces[pos.r];
         if (this.board.pieces[pos.r][pos.c] !== undefined) {
           let bubble = row[pos.c];
+          // add bubble at that [row, col] as neighbor
           neighbors[`[${pos.r},${pos.c}]`] = bubble;
         }
       } else {
+        // otherwise, mark that neighbor as null
         neighbors[`[${pos.r},${pos.c}]`] = null;
       }
     });
@@ -147,6 +150,21 @@ export class Bubble {
       console.log(
         `${pos}: ${this.neighbors[pos] ? this.neighbors[pos].color : null}`
       );
+    });
+  }
+
+  logCluster() {
+    Object.keys(this.cluster).forEach(key => {
+      console.log(`
+      ${
+        this.cluster[key]
+          ? [
+              this.cluster[key].color,
+              " [" + [this.cluster[key].row, this.cluster[key].col + "]"]
+            ]
+          : null
+      }
+      `);
     });
   }
 
@@ -217,8 +235,9 @@ export class Bubble {
       this.getNeighbors();
       this.cluster = bubble.findCluster([this]);
       console.log("hit! .... \n ");
-      bubble.logNeighbors();
-      console.log(this.cluster);
+      // bubble.logNeighbors();
+      // console.log(this.cluster);
+      this.logCluster();
       // if cluster bigger than 3, drop it
       if (this.cluster.length >= 3) {
         this.dropCluster(this.cluster);
