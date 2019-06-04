@@ -33,22 +33,27 @@ export class Bubble {
     this.neighbors = null; // bubbles at [u, d, l, r, uR, uL, dR, dL]
     this.cluster = [];
   }
+
   reverseDeltaX() {
     this.deltaX = this.deltaX * -1;
   }
+
   reverseDeltaY() {
     this.deltaY = this.deltaY * -1;
   }
+
   // returns [x, y] loc of bubble
   getCoordinates() {
     return [this.x, this.y];
   }
+
   // changes [x, y] loc of bubble
   setCoordinates(newX, newY) {
     this.x = newX;
     this.y = newY;
     this.render();
   }
+
   // changes orientation of bubble
   updateCoords(newX, newY) {
     this.ctx.save();
@@ -57,19 +62,23 @@ export class Bubble {
     this.ctx.translate(-newX, -newY);
     this.ctx.restore();
   }
+
   // returns [w, h]
   getDimensions() {
     return [this.width, this.height];
   }
+
   // changes [w, h]
   setDimensions(newW, newH) {
     this.width = newW;
     this.height = newH;
   }
+
   // returns [[x, y], [w, h]]
   getAttributes() {
     return [getCoordinates(), getDimensions()];
   }
+
   // changes coordinates and or dimensions
   updateAttributes(newCoords, newDims) {
     let newX, newY, newW, newH;
@@ -84,19 +93,17 @@ export class Bubble {
       this.setDimensions(newW, newH);
     }
   }
+
   isOfColor(otherColor) {
     return this.color === otherColor;
   }
+
   // saves array of neighboring bubbles
   getNeighbors() {
     // find the row col at the given [x, y]
     let row = this.row;
     let col = this.col;
     let neighbors = [];
-    // shift col on odd rows
-    // if (row % 2 != 0) {
-    //   col = col + 1;
-    // }
     let positions = this.getPosToCheck(row, col);
     Object.values(positions).forEach(pos => {
       if (this.board.pieces[pos.r] !== undefined) {
@@ -109,39 +116,30 @@ export class Bubble {
     });
     this.neighbors = neighbors;
   }
-  // get row, col values at [u, d, l, r, uR, uL, dR, dL]
+
+  // get row, col values at [l, r, uR, uL, dR, dL]
   getPosToCheck(row, col) {
-    let oddOffset = 0;
-    let eventOffset = 0;
     if (row % 2 !== 0) {
-      oddOffset = 1;
+      return {
+        left: { r: row, c: col - 1 },
+        right: { r: row, c: col + 1 },
+        uLeft: { r: row - 1, c: col },
+        uRight: { r: row - 1, c: col + 1 },
+        bLeft: { r: row + 1, c: col },
+        bRight: { r: row + 1, c: col + 1 }
+      };
     } else {
-      eventOffset = -1;
+      return {
+        left: { r: row, c: col - 1 },
+        right: { r: row, c: col + 1 },
+        uLeft: { r: row - 1, c: col - 1 },
+        uRight: { r: row - 1, c: col },
+        bLeft: { r: row + 1, c: col - 1 },
+        bRight: { r: row + 1, c: col }
+      };
     }
-    return {
-      up: { r: row - 1, c: col },
-      bot: { r: row + 1, c: col },
-      left: { r: row, c: col - 1 },
-      right: { r: row, c: col + 1 },
-      uLeft: { r: row - 1, c: col - 1 + oddOffset },
-      uRight: { r: row - 1, c: col + oddOffset + eventOffset },
-      bLeft: { r: row + 1, c: col - 1 + oddOffset },
-      bRight: { r: row + 1, c: col + 1 + eventOffset }
-    };
   }
-  // drop neighboring bubbles of same color
-  //  dropNeighbors() {
-  //    if (!this.neighbors) {
-  //      return;
-  //    }
-  //    this.neighbors.forEach((neighbor, idx) => {
-  //      if (neighbor !== null && neighbor.isOfColor(this.color)) {
-  //        this.neighbors[idx] = null;
-  //        neighbor.delete();
-  //        neighbor.dropNeighbors();
-  //      }
-  //    });
-  //  }
+
   findCluster(cluster = []) {
     if (!this.neighbors) {
       this.getNeighbors();
@@ -185,6 +183,7 @@ export class Bubble {
       bubble.delete();
     });
   }
+
   storeHit() {
     this.collided = true;
     let newLoc = this.board.getBoardPosAt({
@@ -201,6 +200,7 @@ export class Bubble {
     console.log(`store at [${newRow}, ${newCol}], collided? ${this.collided}`);
     this.board.pieces[newRow][newCol] = this;
   }
+
   // eliminate this bubble from the game board
   delete() {
     this.deltaX = 0;
@@ -215,6 +215,7 @@ export class Bubble {
     this.collided = false;
     this.canvas.objects.push(this);
   }
+
   // checks if bubble of same color, drops all neighbors if true
   handleHit(bubble) {
     if (bubble.isOfColor(this.color)) {
@@ -234,6 +235,7 @@ export class Bubble {
       this.storeHit();
     }
   }
+
   // check if bubble has hit another bubble
   bubbleHit() {
     // ignore hits when being eliminated
@@ -271,6 +273,7 @@ export class Bubble {
     });
     return hit;
   }
+
   // shoot the bubble
   move() {
     // check for and handle wall collisions
@@ -282,6 +285,7 @@ export class Bubble {
     this.setCoordinates(newX, newY);
     // debugger;
   }
+
   // gets called every frame
   update() {
     if (!this.eliminated) {
@@ -291,6 +295,7 @@ export class Bubble {
       this.render();
     }
   }
+
   // draw the bubble
   render() {
     this.ctx.beginPath();
@@ -300,14 +305,3 @@ export class Bubble {
     this.ctx.closePath();
   }
 }
-
-// // returns null
-// fall() {
-//   this.deltaX = 0;
-//   this.deltaY = -1;
-//   // while (!this.hitWalls(0, this.canvas.width, 0, this.canvas.height)) {
-//   let newX = this.x + this.deltaX;
-//   let newY = this.y + this.deltaY;
-//   this.updateCoords(newX, newY);
-//   // }
-// }
