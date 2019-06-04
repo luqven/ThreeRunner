@@ -98,25 +98,6 @@ export class Bubble {
     return this.color === otherColor;
   }
 
-  // saves array of neighboring bubbles
-  getNeighbors() {
-    // find the row col at the given [x, y]
-    let row = this.row;
-    let col = this.col;
-    let neighbors = [];
-    let positions = this.getPosToCheck(row, col);
-    Object.values(positions).forEach(pos => {
-      if (this.board.pieces[pos.r] !== undefined) {
-        let row = this.board.pieces[pos.r];
-        if (this.board.pieces[pos.r][pos.c] !== undefined) {
-          let bubble = row[pos.c];
-          neighbors.push(bubble);
-        }
-      }
-    });
-    this.neighbors = neighbors;
-  }
-
   // get row, col values at [l, r, uR, uL, dR, dL]
   getPosToCheck(row, col) {
     if (row % 2 !== 0) {
@@ -140,44 +121,58 @@ export class Bubble {
     }
   }
 
+  // saves array of neighboring bubbles
+  getNeighbors() {
+    // find the row col at the given [x, y]
+    let row = this.row;
+    let col = this.col;
+    let neighbors = {};
+    let positions = this.getPosToCheck(row, col);
+    Object.values(positions).forEach(pos => {
+      if (this.board.pieces[pos.r] !== undefined) {
+        let row = this.board.pieces[pos.r];
+        if (this.board.pieces[pos.r][pos.c] !== undefined) {
+          let bubble = row[pos.c];
+          neighbors[`[${pos.r},${pos.c}]`] = bubble;
+        }
+      } else {
+        neighbors[`[${pos.r},${pos.c}]`] = null;
+      }
+    });
+    this.neighbors = neighbors;
+  }
+
+  logNeighbors() {
+    Object.keys(this.neighbors).forEach(pos => {
+      console.log(
+        `${pos}: ${this.neighbors[pos] ? this.neighbors[pos].color : null}`
+      );
+    });
+  }
+
+  // TO_DO: Fix cluster detection
   findCluster(cluster = []) {
-    if (!this.neighbors) {
-      this.getNeighbors();
-    }
-    this.neighbors.forEach((neighbor, idx) => {
-      if (neighbor !== null && neighbor.isOfColor(this.color)) {
-        this.neighbors[idx] = null;
-        if (!cluster.includes(neighbor)) {
-          cluster.push(neighbor);
-        }
-        if (!neighbor.cluster.includes(this)) {
-          neighbor.cluster.push(this);
-        }
+    this.getNeighbors();
+    Object.values(this.neighbors).forEach(neighbor => {
+      // if neighbor exists, of same color, & not in cluster
+      if (
+        neighbor &&
+        neighbor.isOfColor(this.color) &&
+        !cluster.includes(neighbor)
+      ) {
+        // add it the to the cluster
+        cluster.push(neighbor);
         neighbor.findCluster(cluster);
       }
     });
+    if (!this.cluster.includes(this)) {
+      this.cluster.push(this);
+    }
+    // debugger;
     return cluster;
   }
 
-  clusterOfMinSize(cluster) {
-    debugger;
-    let min = 3;
-    let result = false;
-    while (cluster.length > 0) {
-      min -= cluster.length;
-      if (min <= 0) {
-        result = true;
-        break;
-      }
-      cluster = cluster[0];
-      if (!Array.isArray(cluster)) {
-        cluster = [cluster];
-      }
-    }
-    debugger;
-    return result;
-  }
-
+  // delete all bubbles in the cluster
   dropCluster(cluster) {
     cluster.forEach(bubble => {
       bubble.delete();
@@ -197,7 +192,6 @@ export class Bubble {
     }
     this.row = newRow;
     this.col = newCol;
-    console.log(`store at [${newRow}, ${newCol}], collided? ${this.collided}`);
     this.board.pieces[newRow][newCol] = this;
   }
 
@@ -209,26 +203,28 @@ export class Bubble {
     if (this.row !== undefined && this.col !== undefined) {
       let row = this.board.pieces[this.row];
       let col = this.col;
-      row[col] = null;
+      row[col] = undefined;
     }
     this.falling = true;
     this.collided = false;
     this.canvas.objects.push(this);
   }
 
-  // checks if bubble of same color, drops all neighbors if true
+  // checks if bubble cluster is of min size, drops cluster if true
   handleHit(bubble) {
     if (bubble.isOfColor(this.color)) {
-      // drop the hit bubble
-      // bubble.collided = true;
-      // bubble.eliminated = true;
-      this.cluster = bubble.findCluster();
-      if (this.clusterOfMinSize(this.cluster)) {
+      this.storeHit();
+      this.getNeighbors();
+      this.cluster = bubble.findCluster([this]);
+      console.log("hit! .... \n ");
+      bubble.logNeighbors();
+      console.log(this.cluster);
+      // if cluster bigger than 3, drop it
+      if (this.cluster.length >= 3) {
         this.dropCluster(this.cluster);
         bubble.delete();
         this.delete();
-      } else {
-        this.storeHit();
+        // otherwise, store bubble on board
       }
     } else {
       // store bubble in board
@@ -236,13 +232,12 @@ export class Bubble {
     }
   }
 
-  // check if bubble has hit another bubble
+  // check if bubble has hit another bubble or wall
   bubbleHit() {
     // ignore hits when being eliminated
-    if (this.falling === true) {
+    if (this.falling === true || this.eliminated === true) {
       return false;
     }
-
     // if hit top wall
     if (this.wallsHit.pop() === 0 && !this.falling) {
       this.storeHit();
@@ -251,19 +246,12 @@ export class Bubble {
     } else if (this.wallsHit.pop() === 3) {
       this.eliminated = true;
     }
-
-    let currentPos = [this.x, this.y];
     let pieces = this.board.pieces;
     let hit = false;
-
     pieces.forEach(row => {
       row.forEach(bubble => {
-        if (bubble && !hit) {
-          let bubbleMidpoint = [bubble.x, bubble.y];
-          let midpointDiff = Util.getDistanceBetween(
-            bubbleMidpoint,
-            currentPos
-          );
+        if (bubble && !hit && !bubble.falling) {
+          let midpointDiff = this.midPointDistance(bubble);
           if (midpointDiff < this.radius * 2) {
             hit = true;
             this.handleHit(bubble);
@@ -272,6 +260,13 @@ export class Bubble {
       });
     });
     return hit;
+  }
+
+  // distance between this midpoint and bubble mid point
+  midPointDistance(bubble) {
+    let currentPos = [this.x, this.y];
+    let bubbleMidpoint = [bubble.x, bubble.y];
+    return Util.getDistanceBetween(bubbleMidpoint, currentPos);
   }
 
   // shoot the bubble
@@ -283,7 +278,6 @@ export class Bubble {
     let newX = this.x + this.deltaX;
     let newY = this.y + this.deltaY;
     this.setCoordinates(newX, newY);
-    // debugger;
   }
 
   // gets called every frame
