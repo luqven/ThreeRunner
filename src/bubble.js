@@ -171,6 +171,8 @@ export class Bubble {
   // TO_DO: Fix cluster detection
   findCluster(cluster = []) {
     this.getNeighbors();
+    console.log("___loop******");
+    this.logNeighbors();
     Object.values(this.neighbors).forEach(neighbor => {
       // if neighbor exists, of same color, & not in cluster
       if (
@@ -232,12 +234,16 @@ export class Bubble {
   handleHit(bubble) {
     if (bubble.isOfColor(this.color)) {
       this.storeHit();
+      console.log("______***");
+      bubble.logNeighbors();
+      console.log("***");
       this.getNeighbors();
       this.cluster = bubble.findCluster([this]);
       console.log("hit! .... \n ");
-      // bubble.logNeighbors();
-      // console.log(this.cluster);
+      console.log("***");
       this.logCluster();
+      console.log("***");
+      this.logNeighbors();
       // if cluster bigger than 3, drop it
       if (this.cluster.length >= 3) {
         this.dropCluster(this.cluster);
