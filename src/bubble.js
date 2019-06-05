@@ -117,10 +117,6 @@ export class Bubble {
     });
     this.neighbors = neighbors;
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> 102c449a205708d298f80f4f7a5ff0c4f03afc60
   // get row, col values at [l, r, uR, uL, dR, dL]
   getPosToCheck(row, col) {
     if (row % 2 !== 0) {
@@ -143,10 +139,6 @@ export class Bubble {
       };
     }
   }
-<<<<<<< HEAD
-=======
-
->>>>>>> 102c449a205708d298f80f4f7a5ff0c4f03afc60
   findCluster(cluster = []) {
     if (!this.neighbors) {
       this.getNeighbors();
