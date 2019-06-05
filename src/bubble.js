@@ -146,6 +146,7 @@ export class Bubble {
   }
 
   logNeighbors() {
+    console.log(`bubble @ ${[this.row, this.col]} neighbors: \n`);
     Object.keys(this.neighbors).forEach(pos => {
       console.log(
         `${pos}: ${this.neighbors[pos] ? this.neighbors[pos].color : null}`
@@ -159,8 +160,8 @@ export class Bubble {
       ${
         this.cluster[key]
           ? [
-              this.cluster[key].color,
-              " [" + [this.cluster[key].row, this.cluster[key].col + "]"]
+              " [" + [this.cluster[key].row, this.cluster[key].col + "]"],
+              [" " + this.cluster[key].color]
             ]
           : null
       }
@@ -171,8 +172,9 @@ export class Bubble {
   // TO_DO: Fix cluster detection
   findCluster(cluster = []) {
     this.getNeighbors();
-    console.log("___loop******");
+    console.log(`---- update bubble @ ${[this.row, this.col]} neighbors:`);
     this.logNeighbors();
+    console.log(`---- find bubble @ ${[this.row, this.col]} cluster...`);
     Object.values(this.neighbors).forEach(neighbor => {
       // if neighbor exists, of same color, & not in cluster
       if (
@@ -189,6 +191,8 @@ export class Bubble {
       this.cluster.push(this);
     }
     // debugger;
+    console.log(`---- -- bubble @ ${[this.row, this.col]} cluster: \n`);
+    this.logCluster();
     return cluster;
   }
 
@@ -234,15 +238,19 @@ export class Bubble {
   handleHit(bubble) {
     if (bubble.isOfColor(this.color)) {
       this.storeHit();
-      console.log("______***");
+      console.log(
+        `************* \n -- bubble @ ${[this.row, this.col]} hit! bubble @ ${[
+          bubble.row,
+          bubble.col
+        ]} .... \n*************`
+      );
       bubble.logNeighbors();
-      console.log("***");
       this.getNeighbors();
+      this.logNeighbors();
+      console.log(`-- get bubble @ ${[this.row, this.col]} cluster... `);
       this.cluster = bubble.findCluster([this]);
-      console.log("hit! .... \n ");
-      console.log("***");
+      console.log(`-- bubble @ ${[this.row, this.col]} cluster:`);
       this.logCluster();
-      console.log("***");
       this.logNeighbors();
       // if cluster bigger than 3, drop it
       if (this.cluster.length >= 3) {
