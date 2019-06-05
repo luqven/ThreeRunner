@@ -172,9 +172,9 @@ export class Bubble {
   // TO_DO: Fix cluster detection
   findCluster(cluster = []) {
     this.getNeighbors();
-    console.log(`---- update bubble @ ${[this.row, this.col]} neighbors:`);
+    console.log(` ---- update bubble @ ${[this.row, this.col]} neighbors:`);
     this.logNeighbors();
-    console.log(`---- find bubble @ ${[this.row, this.col]} cluster...`);
+    console.log(` ---- find bubble @ ${[this.row, this.col]} cluster...`);
     Object.values(this.neighbors).forEach(neighbor => {
       // if neighbor exists, of same color, & not in cluster
       if (
@@ -191,7 +191,7 @@ export class Bubble {
       this.cluster.push(this);
     }
     // debugger;
-    console.log(`---- -- bubble @ ${[this.row, this.col]} cluster: \n`);
+    console.log(` ---- -- bubble @ ${[this.row, this.col]} cluster: \n`);
     this.logCluster();
     return cluster;
   }
