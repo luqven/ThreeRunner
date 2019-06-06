@@ -96,7 +96,11 @@ export default class Game {
     let over = true;
     this.board.pieces.forEach(row => {
       row.forEach(bubble => {
-        if (bubble !== null && bubble.eliminated === false) {
+        if (
+          bubble !== null &&
+          bubble !== undefined &&
+          bubble.eliminated === false
+        ) {
           over = false;
           return;
         }
