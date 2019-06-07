@@ -191,7 +191,7 @@ export class Board {
   }
 
   getDeltas(loc, target) {
-    let distancePerFrame = 5;
+    let distancePerFrame = 10;
     let angle = Math.atan2(target.y - loc.y, target.x - loc.x);
     let sin = Math.sin(angle) * distancePerFrame;
     let cos = Math.cos(angle) * distancePerFrame;
