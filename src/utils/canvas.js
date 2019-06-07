@@ -34,7 +34,7 @@ export class Canvas {
     };
     this.objects = props.objects; // objects that belong to this canvas
     this.canvasDidMount = false; // bool turns true on first render
-    this.isDragging = false;
+    this.isDragging = true;
     this.pressedKey = null;
     this.muted = true;
 

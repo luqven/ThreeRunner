@@ -58,8 +58,8 @@ export default class Game {
   }
   // save the mouse position on the canvas
   watchMouseEvents() {
-    this.canvas.watchMouseDown();
-    this.canvas.watchMouseUp();
+    // this.canvas.watchMouseDown();
+    // this.canvas.watchMouseUp();
     this.canvas.watchMouseMove();
     this.canvas.watchDoubleClick();
     this.canvas.watchTouchMove();
