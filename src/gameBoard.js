@@ -87,12 +87,13 @@ export class Board {
 
   isValidLoc(row, col) {
     // if adding beyond current size, expand board
-    if (!this.pieces[row]) {
+    if (row >= this.pieces.length) {
       this.pieces.push([]);
       return true;
-    }
-    // if trying to as to pos where bubble already exists
-    else if (this.pieces[row][col]) {
+    } else if (row < 0) {
+      return false;
+      // if trying to as to pos where bubble already exists
+    } else if (this.pieces[row][col]) {
       return false;
     }
     return true;
@@ -108,17 +109,24 @@ export class Board {
       console.log(`*** - redraw bubble @ [${(newCoords.x, newCoords.y)}]`);
       bubble.x = newCoords.x;
       bubble.y = newCoords.y;
-      console.log("*** - check for bubble hit at new loc");
-      // bubble.hitNeighbor();
+      // console.log("*** - check for bubble hit at new loc");
+      // // bubble.hitNeighbor();
     } else {
       console.log(`!!! invalid ammo pos @ [${[row, col]}]`);
-      bubble.x -= bubble.radius / this.pieceWidth;
-      bubble.y += bubble.radius / this.pieceHeight;
-      let newLoc = this.getBoardPosAt({
-        x: bubble.x,
-        y: bubble.y
-      });
-      this.snapToBoard(bubble, newLoc.r, newLoc.c);
+      if (row < 0) {
+        row = 0;
+        this.snapToBoard(bubble, row, col);
+      } else if (col < 0) {
+        col = 0;
+      } else {
+        bubble.x -= bubble.radius / this.pieceWidth;
+        bubble.y += bubble.radius / this.pieceHeight;
+        let newLoc = this.getBoardPosAt({
+          x: bubble.x,
+          y: bubble.y
+        });
+        this.snapToBoard(bubble, newLoc.r, newLoc.c);
+      }
     }
   }
 
