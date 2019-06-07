@@ -7,8 +7,8 @@ export class Cannon {
     this.canvas = props.canvas;
     this.ctx = props.canvas.ctx;
     this.board = props.board;
-    this.width = 5;
-    this.height = 180;
+    this.width = 1;
+    this.height = 60;
     this.x = props.canvas.width / 2;
     this.y = props.canvas.height - 80;
     this.newX = this.x + this.width;
@@ -42,6 +42,7 @@ export class Cannon {
     this.mouseY = newY;
     //render the line from player to mouse
     this.ctx.lineWidth = 2;
+    this.ctx.setLineDash([5, 15]);
     this.ctx.strokeStyle = Util.colors["red"];
     this.ctx.beginPath();
     this.ctx.moveTo(x, y);
