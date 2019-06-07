@@ -7,9 +7,9 @@ export class Board {
   constructor(props) {
     this.rows = 5;
     this.cols = 10;
-    this.tOffset = 1; // add spacer rows from the top
-    this.lOffset = 1.5; // add spacer rows from the left
-    this.rOffset = 5; // row gaps
+    this.topOffset = 1; // add spacer rows from the top
+    this.leftOffset = 1.5; // add spacer rows from the left
+    this.rowGap = 5;
     this.pieceWidth = 35;
     this.pieceHeight = 35;
     this.pieces = [];
@@ -58,27 +58,68 @@ export class Board {
   }
 
   getBubbleLocAt(row, col) {
-    let tOffset = this.tOffset;
-    let lOffset = this.lOffset;
-    row += tOffset;
-    col += lOffset;
-    let offset = this.rOffset;
+    row += this.topOffset;
+    col += this.leftOffset;
     let x = col * this.pieceWidth * 2;
     // alternate offset on rows, creates shifted grid
     if (row % 2 == 0) {
       x += this.pieceWidth;
     }
-    let y = row * (this.pieceHeight - offset) * 2;
+    let y = row * (this.pieceHeight - this.rowGap) * 2;
     return { x, y };
   }
 
   getBoardPosAt(loc) {
-    let col = Math.floor(loc.x / 2 / this.pieceWidth - this.tOffset);
-    let row = Math.ceil(
-      loc.y / 2 / (this.pieceHeight - this.rOffset) - this.lOffset
+    let row = Math.floor(
+      loc.y / (this.pieceHeight - this.rowGap) / 2 - this.topOffset
+    );
+    let offset = 0;
+    // add offset if on odd row to compensate for shift in board
+    if (row % 2 !== 0) {
+      offset = this.pieceWidth / 2;
+    }
+    let col = Math.floor(
+      (loc.x - offset) / this.pieceWidth / 2 - this.leftOffset
     );
     let gridPos = { r: row, c: col };
     return gridPos;
+  }
+
+  isValidLoc(row, col) {
+    // if adding beyond current size, expand board
+    if (!this.pieces[row]) {
+      this.pieces.push([]);
+      return true;
+    }
+    // if trying to as to pos where bubble already exists
+    else if (this.pieces[row][col]) {
+      return false;
+    }
+    return true;
+  }
+
+  snapToBoard(bubble, row, col) {
+    if (this.isValidLoc(row, col)) {
+      console.log(`*** ammunition stored @ [${[row, col]}]`);
+      bubble.row = row;
+      bubble.col = col;
+      this.pieces[row][col] = bubble;
+      let newCoords = this.getBubbleLocAt(row, col);
+      console.log(`*** - redraw bubble @ [${(newCoords.x, newCoords.y)}]`);
+      bubble.x = newCoords.x;
+      bubble.y = newCoords.y;
+      console.log("*** - check for bubble hit at new loc");
+      // bubble.hitNeighbor();
+    } else {
+      console.log(`!!! invalid ammo pos @ [${[row, col]}]`);
+      bubble.x -= bubble.radius / this.pieceWidth;
+      bubble.y += bubble.radius / this.pieceHeight;
+      let newLoc = this.getBoardPosAt({
+        x: bubble.x,
+        y: bubble.y
+      });
+      this.snapToBoard(bubble, newLoc.r, newLoc.c);
+    }
   }
 
   drawBubbleAt(x, y, row, col) {

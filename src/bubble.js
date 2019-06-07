@@ -203,6 +203,7 @@ export class Bubble {
     });
   }
 
+  // get bubbles [r, c] from its current pos on board, save it
   storeHit() {
     this.collided = true;
     let newLoc = this.board.getBoardPosAt({
@@ -211,12 +212,7 @@ export class Bubble {
     });
     let newRow = newLoc.r;
     let newCol = newLoc.c;
-    if (!this.board.pieces[newRow]) {
-      this.board.pieces.push([]);
-    }
-    this.row = newRow;
-    this.col = newCol;
-    this.board.pieces[newRow][newCol] = this;
+    this.board.snapToBoard(this, newRow, newCol);
   }
 
   // eliminate this bubble from the game board
@@ -237,13 +233,16 @@ export class Bubble {
   // checks if bubble cluster is of min size, drops cluster if true
   handleHit(bubble) {
     if (bubble.isOfColor(this.color)) {
-      this.storeHit();
+      if (!this.collided) {
+        this.storeHit();
+      }
       console.log(
         `************* \n -- bubble @ ${[this.row, this.col]} hit! bubble @ ${[
           bubble.row,
           bubble.col
         ]} .... \n*************`
       );
+      bubble.getNeighbors();
       bubble.logNeighbors();
       this.getNeighbors();
       this.logNeighbors();
@@ -279,6 +278,10 @@ export class Bubble {
     } else if (this.wallsHit.pop() === 3) {
       this.eliminated = true;
     }
+    return this.hitNeighbor();
+  }
+
+  hitNeighbor() {
     let pieces = this.board.pieces;
     let hit = false;
     pieces.forEach(row => {
