@@ -6,7 +6,7 @@
   "dependencies": {
     "file-loader": "^3.0.1",
     "http-server": "^0.11.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "three": "^0.104.0",
     "webpack": "^4.31.0"
   },
